@@ -19,7 +19,6 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     let loggedInAs = this.loginService.login(this.username, this.password);
-    console.log(loggedInAs);
 
     if (loggedInAs !== '') {
       localStorage.setItem('loggedInAs', loggedInAs);

@@ -1,9 +1,22 @@
 import { Injectable } from '@angular/core';
+import { Coin, InterfaceCoinsService } from './interface-coins.service';
+
+interface UserToCoins {
+  username: string;
+  coins: Coin[];
+}
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class CoinsService {
+export class CoinsService implements InterfaceCoinsService {
+  constructor() {}
 
-  constructor() { }
+  getSavedCoinsByUsername(username: string): Coin[] {
+    let userToCoinsArray = <UserToCoins[]>(
+      JSON.parse(localStorage.getItem('userToCoinsArray') || '[]')
+    );
+
+    return userToCoinsArray.find(u => u.username == username)?.coins ?? [];
+  }
 }

@@ -13,9 +13,17 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
+import { MatTabsModule } from '@angular/material/tabs';
+import { AddCoinComponent } from './components/coins/add-coin/add-coin.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, CoinsComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    CoinsComponent,
+    AddCoinComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -26,6 +34,8 @@ import { FormsModule } from '@angular/forms';
     MatButtonModule,
     MatCardModule,
     FormsModule,
+    MatTabsModule,
+    MatDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
