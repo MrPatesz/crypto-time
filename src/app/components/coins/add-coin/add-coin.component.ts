@@ -18,9 +18,13 @@ export class AddCoinComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.coinsService
-      .getCoins()
-      .subscribe((data: Coin[]) => (this.coins = data.slice(0, 100)));
+    /*this.coinsService.getCoins().subscribe((data: Coin[]) => {
+      this.coins = data.slice(0, 100);
+      //localStorage.setItem('mockedCoins', JSON.stringify(this.coins));
+    });*/
+    this.coins = <Coin[]>(
+      JSON.parse(localStorage.getItem('mockedCoins') ?? '[]')
+    );
   }
 
   cancel() {
