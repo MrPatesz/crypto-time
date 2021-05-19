@@ -20,12 +20,14 @@ export class LoginService implements InterfaceLoginService {
     );
 
     if (user === undefined) {
-      let newUser = { username: username, password: password };
-      userArray.push(newUser);
-      localStorage.setItem('users', JSON.stringify(userArray));
+      if (userArray.find((u) => u.username === username) === undefined) {
+        let newUser = { username: username, password: password };
+        userArray.push(newUser);
+        localStorage.setItem('users', JSON.stringify(userArray));
+      }
       return '';
     } else {
       return user.username;
     }
   }
-} 
+}
