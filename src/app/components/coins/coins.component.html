@@ -1,11 +1,19 @@
-<h1>Logged in as {{ loggedInAs }}</h1>
+<div class="page">
+  <div class="header">
+    <h1>Logged in as {{ loggedInAs }}</h1>
 
-<button (click)="onLogout()" mat-raised-button color="primary">Logout</button>
+    <button (click)="onLogout()" mat-raised-button color="primary">
+      Logout
+    </button>
+  </div>
 
-<button (click)="addCoin()" mat-raised-button color="primary">Add coin</button>
+  <button (click)="addCoin()" mat-raised-button color="primary">
+    Add coin
+  </button>
 
-<mat-tab-group>
-  <mat-tab *ngFor="let coin of coins" [label]="coin"></mat-tab>
-  <mat-tab label="+"></mat-tab>
-  <button mat-raised-button color="primary">Login</button>
-</mat-tab-group>
+  <mat-tab-group>
+    <mat-tab *ngFor="let coin of coins" [label]="coin"></mat-tab>
+    <mat-tab label="+"></mat-tab>
+    <button mat-raised-button color="primary">Login</button>
+  </mat-tab-group>
+</div>
