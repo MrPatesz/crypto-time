@@ -80,4 +80,11 @@ export class CoinsService implements InterfaceCoinsService {
       JSON.stringify(userToCoinIdsArray)
     );
   }
+
+  getCoinById(coinId: string): Coin {
+    // MOCKED
+    let coins = <Coin[]>JSON.parse(localStorage.getItem("mockedCoins") ?? "[]");
+
+    return coins.find(c => c.asset_id === coinId)!;
+  }
 }

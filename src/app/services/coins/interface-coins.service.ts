@@ -32,4 +32,6 @@ export abstract class InterfaceCoinsService {
   abstract saveCoin(coinId: string, username: string): void;
 
   abstract removeCoin(coinId: string, username: string): void;
+
+  abstract getCoinById(coinId: string): Coin;
 }
