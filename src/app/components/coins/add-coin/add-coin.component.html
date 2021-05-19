@@ -1,3 +1,4 @@
+<h1 mat-dialog-title>Add a coin</h1>
 <mat-form-field appearance="fill">
   <mat-label>Choose a coin</mat-label>
   <mat-select [(ngModel)]="selectedCoinId">
@@ -8,7 +9,7 @@
 </mat-form-field>
 <mat-dialog-actions class="actions">
   <button (click)="cancel()" mat-raised-button>Cancel</button>
-  <button (click)="addCoin()" mat-raised-button color="primary">
+  <button [mat-dialog-close]="selectedCoinId" mat-raised-button color="primary">
     Add coin
   </button>
 </mat-dialog-actions>

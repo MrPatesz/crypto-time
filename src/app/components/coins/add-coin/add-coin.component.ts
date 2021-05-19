@@ -23,10 +23,6 @@ export class AddCoinComponent implements OnInit {
       .subscribe((data: Coin[]) => (this.coins = data.slice(0, 100)));
   }
 
-  addCoin() {
-    this.dialogRef.close(this.selectedCoinId);
-  }
-
   cancel() {
     this.dialogRef.close();
   }
