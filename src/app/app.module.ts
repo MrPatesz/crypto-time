@@ -16,6 +16,8 @@ import { FormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
 import { AddCoinComponent } from './components/coins/add-coin/add-coin.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { HttpClientModule } from '@angular/common/http';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     FormsModule,
     MatTabsModule,
     MatDialogModule,
+    HttpClientModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

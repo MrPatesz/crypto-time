@@ -13,7 +13,7 @@ export class LoginService implements InterfaceLoginService {
   constructor() {}
 
   login(username: string, password: string): string {
-    let userArray = <User[]>JSON.parse(localStorage.getItem('users') || '[]');
+    let userArray = <User[]>JSON.parse(localStorage.getItem('users') ?? '[]');
 
     let user = userArray.find(
       (u) => u.username === username && u.password === password

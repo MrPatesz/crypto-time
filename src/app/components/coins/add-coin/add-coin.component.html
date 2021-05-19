@@ -1,1 +1,14 @@
-<p>add-coin works!</p>
+<mat-form-field appearance="fill">
+  <mat-label>Choose a coin</mat-label>
+  <mat-select [(ngModel)]="selectedCoinId">
+    <mat-option *ngFor="let coin of coins" [value]="coin.asset_id">
+      {{ coin.asset_id }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-dialog-actions>
+  <button class="cancel" (click)="cancel()" mat-raised-button>Cancel</button>
+  <button (click)="addCoin()" mat-raised-button color="primary">
+    Add coin
+  </button>
+</mat-dialog-actions>

@@ -5,7 +5,7 @@
 <button (click)="addCoin()" mat-raised-button color="primary">Add coin</button>
 
 <mat-tab-group>
-  <mat-tab *ngFor="let coin of coins" [label]="coin.name"></mat-tab>
+  <mat-tab *ngFor="let coin of coins" [label]="coin"></mat-tab>
   <mat-tab label="+"></mat-tab>
   <button mat-raised-button color="primary">Login</button>
 </mat-tab-group>

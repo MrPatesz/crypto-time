@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  InterfaceCoinsService,
-  Coin,
-} from '../../services/coins/interface-coins.service';
+import { InterfaceCoinsService } from '../../services/coins/interface-coins.service';
 import { CoinsService } from '../../services/coins/coins.service';
 import { AddCoinComponent } from './add-coin/add-coin.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -22,12 +19,12 @@ export class CoinsComponent implements OnInit {
   ) {}
 
   loggedInAs: string = '';
-  coins: Coin[] = [];
+  coins: string[] = [];
 
   ngOnInit(): void {
     this.loggedInAs = localStorage.getItem('loggedInAs') || '';
 
-    this.coins = this.coinsService.getSavedCoinsByUsername(this.loggedInAs);
+    this.coins = this.coinsService.getSavedCoinIdsByUsername(this.loggedInAs);
   }
 
   onLogout() {
@@ -41,7 +38,11 @@ export class CoinsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((coin) => {
-      console.log(coin);
+      if (coin) {
+        let loggedInAs = localStorage.getItem('loggedInAs');
+
+        if (loggedInAs) this.coinsService.saveCoin(coin, loggedInAs);
+      }
     });
   }
 }
