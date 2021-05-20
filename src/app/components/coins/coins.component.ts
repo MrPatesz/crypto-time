@@ -23,7 +23,7 @@ export class CoinsComponent implements OnInit {
     public dialog: MatDialog
   ) {}
 
-  loggedInAs: string = '';
+  loggedInAs!: string | null;
   coinIds: string[] = [];
   selectedCoin: Coin = {
     asset_id: 'BTC',
@@ -48,9 +48,12 @@ export class CoinsComponent implements OnInit {
   coinValue: number = 0;
 
   ngOnInit(): void {
-    this.loggedInAs = localStorage.getItem('loggedInAs') || '';
+    this.loggedInAs = localStorage.getItem('loggedInAs');
 
-    this.coinIds = this.coinsService.getSavedCoinIdsByUsername(this.loggedInAs);
+    if (this.loggedInAs)
+      this.coinIds = this.coinsService.getSavedCoinIdsByUsername(
+        this.loggedInAs
+      );
   }
 
   onLogout() {
@@ -65,9 +68,7 @@ export class CoinsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((coin) => {
       if (coin) {
-        let loggedInAs = localStorage.getItem('loggedInAs');
-
-        if (loggedInAs) this.coinsService.saveCoin(coin, loggedInAs);
+        if (this.loggedInAs) this.coinsService.saveCoin(coin, this.loggedInAs);
       }
     });
   }
@@ -86,9 +87,7 @@ export class CoinsComponent implements OnInit {
   }
 
   removeCoin(coinId: string) {
-    let loggedInAs = localStorage.getItem('loggedInAs');
-
-    if (loggedInAs) this.coinsService.removeCoin(coinId, loggedInAs);
+    if (this.loggedInAs) this.coinsService.removeCoin(coinId, this.loggedInAs);
   }
 
   usdValueChanged() {
