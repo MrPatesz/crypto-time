@@ -11,7 +11,7 @@
     Add coin
   </button>
 
-  <mat-tab-group (selectedTabChange)="(onSelect)">
+  <mat-tab-group (selectedTabChange)="onTabChange()" #tabGroup>
     <mat-tab *ngFor="let coinId of coinIds" [label]="coinId">
       <div class="header">
         <form class="header">

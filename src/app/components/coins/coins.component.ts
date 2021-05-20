@@ -7,6 +7,8 @@ import {
 import { CoinsService } from '../../services/coins/coins.service';
 import { AddCoinComponent } from './add-coin/add-coin.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ViewChild } from '@angular/core';
+import { MatTabGroup } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-coins',
@@ -70,8 +72,17 @@ export class CoinsComponent implements OnInit {
     });
   }
 
-  onSelect(coinId: string) {
+  @ViewChild('tabGroup') private tabGroup!: MatTabGroup;
+
+  onTabChange() {
+    let index = this.tabGroup.selectedIndex ?? 0;
+
+    let coinId = this.coinIds[index];
+
     this.selectedCoin = this.coinsService.getCoinById(coinId);
+
+    this.usdValue = 0;
+    this.coinValue = 0;
   }
 
   removeCoin(coinId: string) {
