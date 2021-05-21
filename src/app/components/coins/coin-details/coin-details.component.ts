@@ -11,7 +11,7 @@ import { MockedCoinsService } from 'src/app/services/coins/mocked-coins.service'
   selector: 'app-coin-details',
   templateUrl: './coin-details.component.html',
   styleUrls: ['./coin-details.component.scss'],
-  providers: [{ provide: ICoinsService, useClass: ApiCoinsService }], //MockedCoinsService }], //
+  providers: [{ provide: ICoinsService, useClass: MockedCoinsService }], //ApiCoinsService }], //
 })
 export class CoinDetailsComponent implements OnInit {
   @Input()
@@ -35,10 +35,13 @@ export class CoinDetailsComponent implements OnInit {
   constructor(private coinsService: ICoinsService) {}
 
   ngOnInit(): void {
-    this.coinsService.getCoinById(this.selectedCoinId).subscribe((c) => {
-      console.log(c);
-      this.selectedCoin = c;
-    });
+    this.coinsService
+      .getCoinById(this.selectedCoinId)
+      .subscribe((coins: Coin[]) => {
+        this.selectedCoin = coins.find(
+          (c) => c.asset_id === this.selectedCoinId
+        )!;
+      });
     this.coinsService
       .getLastWeeksExchangeRate(this.selectedCoinId)
       .subscribe((r) => {
@@ -52,7 +55,10 @@ export class CoinDetailsComponent implements OnInit {
     let newChartData = [{ name: coinId, series: <SeriesItem[]>[] }];
     exchangeRates.forEach((exchangeRate) => {
       newChartData[0].series.push({
-        name: exchangeRate.time_period_start.slice(0, 12),
+        name:
+          exchangeRate.time_period_start.slice(5, 10) +
+          ' ' +
+          exchangeRate.time_period_start.slice(11, 16),
         value: exchangeRate.rate_open,
       });
     });

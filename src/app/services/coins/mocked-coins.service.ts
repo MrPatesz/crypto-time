@@ -15,10 +15,10 @@ export class MockedCoinsService implements ICoinsService {
     return of(<Coin[]>JSON.parse(localStorage.getItem('mockedCoins') ?? '[]'));
   }
 
-  getCoinById(coinId: string): Coin {
+  getCoinById(coinId: string): Observable<Coin[]> {
     let coins = <Coin[]>JSON.parse(localStorage.getItem('mockedCoins') ?? '[]');
 
-    return coins.find((c) => c.asset_id === coinId)!;
+    return of(Array.of(coins.find((c) => c.asset_id === coinId)!));
   }
 
   getLastWeeksExchangeRate(coinId: string): Observable<ExchangeRate[]> {

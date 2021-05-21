@@ -22,11 +22,11 @@ export class ApiCoinsService implements ICoinsService {
     return this.http.get<Coin[]>(this.BASE_URL + 'assets', this.HTTP_OPTIONS);
   }
 
-  getCoinById(coinId: string): Coin {
-    // MOCKED !!!
-    let coins = <Coin[]>JSON.parse(localStorage.getItem('mockedCoins') ?? '[]');
-
-    return coins.find((c) => c.asset_id === coinId)!;
+  getCoinById(coinId: string): Observable<Coin[]> {
+    return this.http.get<Coin[]>(
+      this.BASE_URL + 'assets/' + coinId,
+      this.HTTP_OPTIONS
+    );
   }
 
   getLastWeeksExchangeRate(coinId: string): Observable<ExchangeRate[]> {

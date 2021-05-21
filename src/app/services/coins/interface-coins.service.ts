@@ -9,7 +9,7 @@ import { ExchangeRate } from 'src/app/models/exchange-rate';
 export abstract class ICoinsService {
   abstract getCoins(): Observable<Coin[]>;
 
-  abstract getCoinById(coinId: string): Coin;
+  abstract getCoinById(coinId: string): Observable<Coin[]>;
 
   abstract getLastWeeksExchangeRate(coinId: string): Observable<ExchangeRate[]>;
 }
