@@ -9,16 +9,16 @@ import { MockedCoinsService } from 'src/app/services/coins/mocked-coins.service'
   selector: 'app-coin-details',
   templateUrl: './coin-details.component.html',
   styleUrls: ['./coin-details.component.scss'],
-  providers: [{ provide: ICoinsService, useClass: MockedCoinsService }],//ApiCoinsService }, //
+  providers: [{ provide: ICoinsService, useClass: MockedCoinsService }], // ApiCoinsService }], //
 })
 export class CoinDetailsComponent implements OnInit {
-  selectedCoin!: Coin;
   @Input()
   selectedCoinId!: string;
 
   @Output()
   removeCoin = new EventEmitter();
 
+  selectedCoin!: Coin;
   chartData!: ChartData[] | undefined;
   view: any = [700, 400];
   showYAxisLabel: boolean = true;
