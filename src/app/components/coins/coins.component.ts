@@ -11,13 +11,14 @@ import { IUserService } from 'src/app/services/user/interface-user.service';
 import { MockedUserService } from 'src/app/services/user/mocked-user.service';
 import { Coin } from 'src/app/models/coin';
 import { ExchangeRate } from 'src/app/models/exchange-rate';
+import { ApiCoinsService } from 'src/app/services/coins/api-coins.service';
 
 @Component({
   selector: 'app-coins',
   templateUrl: './coins.component.html',
   styleUrls: ['./coins.component.scss'],
   providers: [
-    { provide: ICoinsService, useClass: MockedCoinsService },
+    { provide: ICoinsService, useClass: MockedCoinsService }, //ApiCoinsService }, //
     { provide: IUserService, useClass: MockedUserService },
   ],
 })
@@ -31,25 +32,7 @@ export class CoinsComponent implements OnInit {
 
   loggedInAs!: string | null;
   coinIds: string[] = [];
-  selectedCoin: Coin = {
-    asset_id: 'BTC',
-    data_end: '2021-05-19',
-    data_orderbook_end: '2020-08-05T14:38:38.3413202Z',
-    data_orderbook_start: '2014-02-24T17:43:05.0000000Z',
-    data_quote_end: '2021-05-19T14:25:49.1672942Z',
-    data_quote_start: '2014-02-24T17:43:05.0000000Z',
-    data_start: '2010-07-17',
-    data_symbols_count: 54352,
-    data_trade_end: '2021-05-19T14:15:03.6266667Z',
-    data_trade_start: '2010-07-17T23:09:17.0000000Z',
-    id_icon: '4caf2b16-a017-4e26-a348-2cea69c34cba',
-    name: 'Bitcoin',
-    price_usd: 35125.388332863266,
-    type_is_crypto: 1,
-    volume_1day_usd: 5836257165296485,
-    volume_1hrs_usd: 214183542757792.47,
-    volume_1mth_usd: 161227803305110850,
-  };
+  selectedCoin!: Coin;
   usdValue: number = 0;
   coinValue: number = 0;
 
@@ -66,12 +49,12 @@ export class CoinsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggedInAs = this.userService.getLoggedInAs();
-
-    if (this.loggedInAs) this.coinIds = this.userService.getSavedCoinIds();
-
+    this.coinIds = this.userService.getSavedCoinIds();
+    this.selectedCoin = this.coinsService.getCoinById(this.coinIds[0]);
     this.coinsService
       .getLastWeeksExchangeRate(this.selectedCoin.asset_id)
       .subscribe((r) => {
+        localStorage.setItem('mockedExchange', JSON.stringify(r));
         this.fillChartData(this.selectedCoin.asset_id, r);
       });
   }
@@ -87,14 +70,14 @@ export class CoinsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((coin) => {
-      if (coin && this.loggedInAs) {
+      if (coin) {
         this.userService.saveCoin(coin);
       }
     });
   }
 
   onTabChange(selectedIndex: number | null) {
-    if (selectedIndex) {
+    if (selectedIndex !== null) {
       let coinId = this.coinIds[selectedIndex];
 
       this.selectedCoin = this.coinsService.getCoinById(coinId);
@@ -121,7 +104,7 @@ export class CoinsComponent implements OnInit {
   }
 
   removeCoin(coinId: string) {
-    if (this.loggedInAs) this.userService.removeCoin(coinId);
+    this.userService.removeCoin(coinId);
 
     this.coinIds = this.coinIds.filter((c) => c !== coinId);
   }
