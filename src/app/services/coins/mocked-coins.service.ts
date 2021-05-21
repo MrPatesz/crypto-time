@@ -3,7 +3,7 @@ import { ICoinsService } from './interface-coins.service';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs/internal/observable/of';
 import { Coin } from 'src/app/models/coin';
-import { ExchangeRate } from 'src/app/models/exchange-rate';
+import { ExchangeRate, MockedExchangeRate } from 'src/app/models/exchange-rate';
 
 @Injectable({
   providedIn: 'root',
@@ -22,8 +22,15 @@ export class MockedCoinsService implements ICoinsService {
   }
 
   getLastWeeksExchangeRate(coinId: string): Observable<ExchangeRate[]> {
-    return of(
-      <ExchangeRate[]>JSON.parse(localStorage.getItem('mockedExchange') ?? '[]')
+    let exchangeRates = <MockedExchangeRate[]>(
+      JSON.parse(localStorage.getItem('mockedExchangeRates') ?? '[]')
     );
+    let returnValue = exchangeRates.find((rate) => rate.coinId === coinId);
+
+    if (returnValue) {
+      return of(returnValue.rates);
+    } else {
+      return of(exchangeRates[0].rates);
+    }
   }
 }

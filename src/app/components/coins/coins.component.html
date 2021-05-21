@@ -1,7 +1,6 @@
 <div class="page">
   <div class="header">
-    <h1>Logged in as {{ loggedInAs }}</h1>
-
+    <h1>{{ loggedInAs }}</h1>
     <button (click)="onLogout()" mat-raised-button color="primary">
       Logout
     </button>
@@ -17,7 +16,7 @@
   >
     <mat-tab *ngFor="let coinId of coinIds" [label]="coinId">
       <div class="header">
-        <form class="header">
+        <form>
           <mat-form-field appearance="fill">
             <mat-label>US Dollar</mat-label>
             <input

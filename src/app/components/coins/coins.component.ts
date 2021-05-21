@@ -10,7 +10,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { IUserService } from 'src/app/services/user/interface-user.service';
 import { MockedUserService } from 'src/app/services/user/mocked-user.service';
 import { Coin } from 'src/app/models/coin';
-import { ExchangeRate } from 'src/app/models/exchange-rate';
+import { ExchangeRate, MockedExchangeRate } from 'src/app/models/exchange-rate';
 import { ApiCoinsService } from 'src/app/services/coins/api-coins.service';
 
 @Component({
@@ -54,7 +54,6 @@ export class CoinsComponent implements OnInit {
     this.coinsService
       .getLastWeeksExchangeRate(this.selectedCoin.asset_id)
       .subscribe((r) => {
-        localStorage.setItem('mockedExchange', JSON.stringify(r));
         this.fillChartData(this.selectedCoin.asset_id, r);
       });
   }
@@ -86,13 +85,35 @@ export class CoinsComponent implements OnInit {
       this.coinValue = 0;
 
       this.coinsService.getLastWeeksExchangeRate(coinId).subscribe((r) => {
-        localStorage.setItem('mockedExchange', JSON.stringify(r));
         this.fillChartData(coinId, r);
       });
     }
   }
 
+  private persistMockData(coinId: string, r: ExchangeRate[]) {
+    let mockedExchangeRates = <MockedExchangeRate[]>(
+      JSON.parse(localStorage.getItem('mockedExchangeRates') ?? '[]')
+    );
+
+    let updateRate = mockedExchangeRates.find((ex) => ex.coinId === coinId);
+
+    if (updateRate) {
+      mockedExchangeRates = mockedExchangeRates.filter(
+        (rate) => rate.coinId !== coinId
+      );
+      mockedExchangeRates.push({ coinId: coinId, rates: r });
+    } else {
+      mockedExchangeRates.push({ coinId: coinId, rates: r });
+      localStorage.setItem(
+        'mockedExchangeRates',
+        JSON.stringify(mockedExchangeRates)
+      );
+    }
+  }
+
   private fillChartData(coinId: string, r: ExchangeRate[]) {
+    this.persistMockData(coinId, r);
+
     let newChartData = [{ name: coinId, series: <SeriesItem[]>[] }];
     r.forEach((i) => {
       newChartData[0].series.push({

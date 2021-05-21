@@ -8,3 +8,8 @@ export interface ExchangeRate {
   rate_low: number;
   rate_close: number;
 }
+
+export interface MockedExchangeRate {
+  coinId: string;
+  rates: ExchangeRate[];
+}
