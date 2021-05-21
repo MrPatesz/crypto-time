@@ -43,7 +43,7 @@ export class CoinsComponent implements OnInit {
   showXAxisLabel: boolean = true;
   xAxis: boolean = true;
   yAxis: boolean = true;
-  xAxisLabel: string = 'Time';
+  xAxisLabel: string = 'Time and Date';
   yAxisLabel: string = 'Price in USD';
   // chart
 

@@ -1,8 +1,21 @@
-.page {
+.m-10 {
   margin: 10px;
 }
 
-.header {
+.flex-justify-between {
   display: flex;
   justify-content: space-between;
+}
+
+.m-y-auto {
+  margin-bottom: auto;
+  margin-top: auto;
+}
+
+.ml-20 {
+  margin-left: 20px;
+}
+
+.mt-10 {
+  margin-top: 10px;
 }

@@ -1,7 +1,12 @@
-<div class="page">
-  <div class="header">
+<div class="m-10">
+  <div class="flex-justify-between">
     <h1>{{ loggedInAs }}</h1>
-    <button (click)="onLogout()" mat-raised-button color="primary">
+    <button
+      class="m-y-auto"
+      (click)="onLogout()"
+      mat-raised-button
+      color="primary"
+    >
       Logout
     </button>
   </div>
@@ -15,8 +20,8 @@
     #tabGroup
   >
     <mat-tab *ngFor="let coinId of coinIds" [label]="coinId">
-      <div class="header">
-        <form>
+      <div class="flex-justify-between">
+        <form class="mt-10">
           <mat-form-field appearance="fill">
             <mat-label>US Dollar</mat-label>
             <input
@@ -28,7 +33,7 @@
             />
           </mat-form-field>
 
-          <mat-form-field appearance="fill">
+          <mat-form-field class="ml-20" appearance="fill">
             <mat-label>{{ selectedCoin.name }}</mat-label>
             <input
               [(ngModel)]="coinValue"
@@ -39,7 +44,12 @@
             />
           </mat-form-field>
         </form>
-        <button (click)="removeCoin(coinId)" mat-raised-button color="accent">
+        <button
+          class="m-y-auto"
+          (click)="removeCoin(coinId)"
+          mat-raised-button
+          color="accent"
+        >
           Remove
         </button>
       </div>
