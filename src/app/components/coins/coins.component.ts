@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  Coin,
-  ExchangeItem,
-  ICoinsService,
-} from '../../services/coins/interface-coins.service';
+import { ICoinsService } from '../../services/coins/interface-coins.service';
 import { MockedCoinsService } from '../../services/coins/mocked-coins.service';
 import { AddCoinComponent } from './add-coin/add-coin.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -13,6 +9,8 @@ import { ChartData, SeriesItem } from '../../models/chart-data';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { IUserService } from 'src/app/services/user/interface-user.service';
 import { MockedUserService } from 'src/app/services/user/mocked-user.service';
+import { Coin } from 'src/app/models/coin';
+import { ExchangeRate } from 'src/app/models/exchange-rate';
 
 @Component({
   selector: 'app-coins',
@@ -111,7 +109,7 @@ export class CoinsComponent implements OnInit {
     }
   }
 
-  private fillChartData(coinId: string, r: ExchangeItem[]) {
+  private fillChartData(coinId: string, r: ExchangeRate[]) {
     let newChartData = [{ name: coinId, series: <SeriesItem[]>[] }];
     r.forEach((i) => {
       newChartData[0].series.push({

@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Coin, ExchangeItem, ICoinsService } from './interface-coins.service';
+import { ICoinsService } from './interface-coins.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs/internal/observable/of';
+import { Coin } from 'src/app/models/coin';
+import { ExchangeRate } from 'src/app/models/exchange-rate';
 
 @Injectable({
   providedIn: 'root',
@@ -26,9 +28,9 @@ export class MockedCoinsService implements ICoinsService {
     return coins.find((c) => c.asset_id === coinId)!;
   }
 
-  getLastWeeksExchangeRate(coinId: string): Observable<ExchangeItem[]> {
+  getLastWeeksExchangeRate(coinId: string): Observable<ExchangeRate[]> {
     return of(
-      <ExchangeItem[]>JSON.parse(localStorage.getItem('mockedExchange') ?? '[]')
+      <ExchangeRate[]>JSON.parse(localStorage.getItem('mockedExchange') ?? '[]')
     );
   }
 }
