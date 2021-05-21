@@ -11,16 +11,22 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTabGroup } from '@angular/material/tabs';
 import { ChartData, SeriesItem } from '../../models/chart-data';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { IUserService } from 'src/app/services/user/interface-user.service';
+import { MockedUserService } from 'src/app/services/user/mocked-user.service';
 
 @Component({
   selector: 'app-coins',
   templateUrl: './coins.component.html',
   styleUrls: ['./coins.component.scss'],
-  providers: [{ provide: ICoinsService, useClass: MockedCoinsService }],
+  providers: [
+    { provide: ICoinsService, useClass: MockedCoinsService },
+    { provide: IUserService, useClass: MockedUserService },
+  ],
 })
 export class CoinsComponent implements OnInit {
   constructor(
     private coinsService: ICoinsService,
+    private userService: IUserService,
     private router: Router,
     public dialog: MatDialog
   ) {}
@@ -61,12 +67,9 @@ export class CoinsComponent implements OnInit {
   // chart
 
   ngOnInit(): void {
-    this.loggedInAs = localStorage.getItem('loggedInAs');
+    this.loggedInAs = this.userService.getLoggedInAs();
 
-    if (this.loggedInAs)
-      this.coinIds = this.coinsService.getSavedCoinIdsByUsername(
-        this.loggedInAs
-      );
+    if (this.loggedInAs) this.coinIds = this.userService.getSavedCoinIds();
 
     this.coinsService
       .getLastWeeksExchangeRate(this.selectedCoin.asset_id)
@@ -76,7 +79,7 @@ export class CoinsComponent implements OnInit {
   }
 
   onLogout() {
-    localStorage.removeItem('loggedInAs');
+    this.userService.logout();
     this.router.navigate(['login']);
   }
 
@@ -86,8 +89,8 @@ export class CoinsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((coin) => {
-      if (coin) {
-        if (this.loggedInAs) this.coinsService.saveCoin(coin, this.loggedInAs);
+      if (coin && this.loggedInAs) {
+        this.userService.saveCoin(coin);
       }
     });
   }
@@ -102,6 +105,7 @@ export class CoinsComponent implements OnInit {
       this.coinValue = 0;
 
       this.coinsService.getLastWeeksExchangeRate(coinId).subscribe((r) => {
+        localStorage.setItem('mockedExchange', JSON.stringify(r));
         this.fillChartData(coinId, r);
       });
     }
@@ -119,7 +123,9 @@ export class CoinsComponent implements OnInit {
   }
 
   removeCoin(coinId: string) {
-    if (this.loggedInAs) this.coinsService.removeCoin(coinId, this.loggedInAs);
+    if (this.loggedInAs) this.userService.removeCoin(coinId);
+
+    this.coinIds = this.coinIds.filter((c) => c !== coinId);
   }
 
   usdValueChanged() {

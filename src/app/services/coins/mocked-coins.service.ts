@@ -4,11 +4,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs/internal/observable/of';
 
-interface UserToCoinIds {
-  username: string;
-  coinIds: string[];
-}
-
 @Injectable({
   providedIn: 'root',
 })
@@ -21,66 +16,8 @@ export class MockedCoinsService implements ICoinsService {
 
   constructor(private http: HttpClient) {}
 
-  getSavedCoinIdsByUsername(username: string): string[] {
-    let userToCoinIdsArray = <UserToCoinIds[]>(
-      JSON.parse(localStorage.getItem('userToCoinIdsArray') ?? '[]')
-    );
-
-    return (
-      userToCoinIdsArray.find((u) => u.username == username)?.coinIds ?? []
-    );
-  }
-
   getCoins() {
     return this.http.get<Coin[]>(this.BASE_URL + 'assets', this.HTTP_OPTIONS);
-  }
-
-  saveCoin(coinId: string, username: string): void {
-    let userToCoinIdsArray = <UserToCoinIds[]>(
-      JSON.parse(localStorage.getItem('userToCoinIdsArray') ?? '[]')
-    );
-
-    let user = userToCoinIdsArray.find((u) => u.username === username);
-
-    userToCoinIdsArray = userToCoinIdsArray.filter(
-      (u) => u.username !== username
-    );
-
-    if (user !== undefined) {
-      user.coinIds.push(coinId);
-      userToCoinIdsArray.push(user);
-    } else {
-      userToCoinIdsArray.push({
-        username: username,
-        coinIds: [coinId],
-      });
-    }
-
-    localStorage.setItem(
-      'userToCoinIdsArray',
-      JSON.stringify(userToCoinIdsArray)
-    );
-  }
-  removeCoin(coinId: string, username: string): void {
-    let userToCoinIdsArray = <UserToCoinIds[]>(
-      JSON.parse(localStorage.getItem('userToCoinIdsArray') ?? '[]')
-    );
-
-    let user = userToCoinIdsArray.find((u) => u.username === username);
-
-    userToCoinIdsArray = userToCoinIdsArray.filter(
-      (u) => u.username !== username
-    );
-
-    if (user !== undefined) {
-      user.coinIds = user.coinIds.filter((c) => c !== coinId);
-      userToCoinIdsArray.push(user);
-    }
-
-    localStorage.setItem(
-      'userToCoinIdsArray',
-      JSON.stringify(userToCoinIdsArray)
-    );
   }
 
   getCoinById(coinId: string): Coin {
@@ -90,6 +27,8 @@ export class MockedCoinsService implements ICoinsService {
   }
 
   getLastWeeksExchangeRate(coinId: string): Observable<ExchangeItem[]> {
-    return of(<ExchangeItem[]>JSON.parse(localStorage.getItem('mockedExchange') ?? '[]'));
+    return of(
+      <ExchangeItem[]>JSON.parse(localStorage.getItem('mockedExchange') ?? '[]')
+    );
   }
 }

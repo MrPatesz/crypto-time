@@ -11,7 +11,10 @@
     Add coin
   </button>
 
-  <mat-tab-group (selectedTabChange)="onTabChange(tabGroup.selectedIndex)" #tabGroup>
+  <mat-tab-group
+    (selectedTabChange)="onTabChange(tabGroup.selectedIndex)"
+    #tabGroup
+  >
     <mat-tab *ngFor="let coinId of coinIds" [label]="coinId">
       <div class="header">
         <form class="header">
@@ -54,7 +57,7 @@
       >
       </ngx-charts-line-chart>
     </mat-tab>
-    <mat-tab label="+"></mat-tab>
+    <!--<mat-tab label="+"></mat-tab>-->
     <button mat-raised-button color="primary">Login</button>
   </mat-tab-group>
 </div>

@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { ILoginService } from '../../services/login/interface-login.service';
-import { MockedLoginService } from '../../services/login/mocked-login.service';
+import { IUserService } from '../../services/user/interface-user.service';
+import { MockedUserService } from '../../services/user/mocked-user.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  providers: [{ provide: ILoginService, useClass: MockedLoginService }],
+  providers: [{ provide: IUserService, useClass: MockedUserService }],
 })
 export class LoginComponent implements OnInit {
   username: string = '';
   password: string = '';
 
-  constructor(private loginService: ILoginService, private router: Router) {}
+  constructor(private loginService: IUserService, private router: Router) {}
 
   ngOnInit(): void {}
 

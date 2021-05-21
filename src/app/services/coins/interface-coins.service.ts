@@ -36,13 +36,7 @@ export interface ExchangeItem {
   providedIn: 'root',
 })
 export abstract class ICoinsService {
-  abstract getSavedCoinIdsByUsername(username: string): string[];
-
   abstract getCoins(): Observable<Coin[]>;
-
-  abstract saveCoin(coinId: string, username: string): void;
-
-  abstract removeCoin(coinId: string, username: string): void;
 
   abstract getCoinById(coinId: string): Coin;
 
