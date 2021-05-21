@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MockedCoinsService } from 'src/app/services/coins/mocked-coins.service';
-import { Coin } from 'src/app/services/coins/interface-coins.service';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Coin } from 'src/app/models/coin';
 
 @Component({
   selector: 'app-add-coin',
