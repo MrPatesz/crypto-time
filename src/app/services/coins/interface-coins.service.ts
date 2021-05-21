@@ -21,10 +21,21 @@ export interface Coin {
   volume_1mth_usd: number;
 }
 
+export interface ExchangeItem {
+  time_period_start: string;
+  time_period_end: string;
+  time_open: string;
+  time_close: string;
+  rate_open: number;
+  rate_high: number;
+  rate_low: number;
+  rate_close: number;
+}
+
 @Injectable({
   providedIn: 'root',
 })
-export abstract class InterfaceCoinsService {
+export abstract class ICoinsService {
   abstract getSavedCoinIdsByUsername(username: string): string[];
 
   abstract getCoins(): Observable<Coin[]>;
@@ -34,4 +45,6 @@ export abstract class InterfaceCoinsService {
   abstract removeCoin(coinId: string, username: string): void;
 
   abstract getCoinById(coinId: string): Coin;
+
+  abstract getLastWeeksExchangeRate(coinId: string): Observable<ExchangeItem[]>;
 }

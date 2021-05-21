@@ -18,6 +18,7 @@ import { AddCoinComponent } from './components/coins/add-coin/add-coin.component
 import { MatDialogModule } from '@angular/material/dialog';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSelectModule } from '@angular/material/select';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatDialogModule,
     HttpClientModule,
     MatSelectModule,
+    NgxChartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

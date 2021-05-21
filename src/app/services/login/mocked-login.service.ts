@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { InterfaceLoginService } from './interface-login.service';
+import { ILoginService } from './interface-login.service';
 
 interface User {
   username: string;
@@ -9,7 +9,7 @@ interface User {
 @Injectable({
   providedIn: 'root',
 })
-export class LoginService implements InterfaceLoginService {
+export class MockedLoginService implements ILoginService {
   constructor() {}
 
   login(username: string, password: string): string {

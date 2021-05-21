@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CoinsService } from 'src/app/services/coins/coins.service';
+import { MockedCoinsService } from 'src/app/services/coins/mocked-coins.service';
 import { Coin } from 'src/app/services/coins/interface-coins.service';
 import { MatDialogRef } from '@angular/material/dialog';
 
@@ -13,7 +13,7 @@ export class AddCoinComponent implements OnInit {
   selectedCoinId: string = '';
 
   constructor(
-    private coinsService: CoinsService,
+    private coinsService: MockedCoinsService,
     public dialogRef: MatDialogRef<string>
   ) {}
 

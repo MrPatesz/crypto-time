@@ -2,23 +2,25 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   Coin,
-  InterfaceCoinsService,
+  ExchangeItem,
+  ICoinsService,
 } from '../../services/coins/interface-coins.service';
-import { CoinsService } from '../../services/coins/coins.service';
+import { MockedCoinsService } from '../../services/coins/mocked-coins.service';
 import { AddCoinComponent } from './add-coin/add-coin.component';
 import { MatDialog } from '@angular/material/dialog';
-import { ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
+import { ChartData, SeriesItem } from '../../models/chart-data';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @Component({
   selector: 'app-coins',
   templateUrl: './coins.component.html',
   styleUrls: ['./coins.component.scss'],
-  providers: [{ provide: InterfaceCoinsService, useClass: CoinsService }],
+  providers: [{ provide: ICoinsService, useClass: MockedCoinsService }],
 })
 export class CoinsComponent implements OnInit {
   constructor(
-    private coinsService: InterfaceCoinsService,
+    private coinsService: ICoinsService,
     private router: Router,
     public dialog: MatDialog
   ) {}
@@ -47,6 +49,17 @@ export class CoinsComponent implements OnInit {
   usdValue: number = 0;
   coinValue: number = 0;
 
+  // chart
+  chartData: ChartData[] | undefined;
+  view: any = [700, 400];
+  showYAxisLabel: boolean = true;
+  showXAxisLabel: boolean = true;
+  xAxis: boolean = true;
+  yAxis: boolean = true;
+  xAxisLabel: string = 'Time';
+  yAxisLabel: string = 'Price in USD';
+  // chart
+
   ngOnInit(): void {
     this.loggedInAs = localStorage.getItem('loggedInAs');
 
@@ -54,6 +67,12 @@ export class CoinsComponent implements OnInit {
       this.coinIds = this.coinsService.getSavedCoinIdsByUsername(
         this.loggedInAs
       );
+
+    this.coinsService
+      .getLastWeeksExchangeRate(this.selectedCoin.asset_id)
+      .subscribe((r) => {
+        this.fillChartData(this.selectedCoin.asset_id, r);
+      });
   }
 
   onLogout() {
@@ -73,17 +92,30 @@ export class CoinsComponent implements OnInit {
     });
   }
 
-  @ViewChild('tabGroup') private tabGroup!: MatTabGroup;
+  onTabChange(selectedIndex: number | null) {
+    if (selectedIndex) {
+      let coinId = this.coinIds[selectedIndex];
 
-  onTabChange() {
-    let index = this.tabGroup.selectedIndex ?? 0;
+      this.selectedCoin = this.coinsService.getCoinById(coinId);
 
-    let coinId = this.coinIds[index];
+      this.usdValue = 0;
+      this.coinValue = 0;
 
-    this.selectedCoin = this.coinsService.getCoinById(coinId);
+      this.coinsService.getLastWeeksExchangeRate(coinId).subscribe((r) => {
+        this.fillChartData(coinId, r);
+      });
+    }
+  }
 
-    this.usdValue = 0;
-    this.coinValue = 0;
+  private fillChartData(coinId: string, r: ExchangeItem[]) {
+    let newChartData = [{ name: coinId, series: <SeriesItem[]>[] }];
+    r.forEach((i) => {
+      newChartData[0].series.push({
+        name: i.time_period_start,
+        value: i.rate_open,
+      });
+    });
+    this.chartData = newChartData;
   }
 
   removeCoin(coinId: string) {
