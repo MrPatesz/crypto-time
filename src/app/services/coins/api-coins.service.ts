@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Coin } from 'src/app/models/coin';
 import { ExchangeRate } from 'src/app/models/exchange-rate';
+import { formatDate } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -29,11 +30,33 @@ export class ApiCoinsService implements ICoinsService {
   }
 
   getLastWeeksExchangeRate(coinId: string): Observable<ExchangeRate[]> {
+    let yesterdaysDate = new Date();
+    yesterdaysDate.setDate(yesterdaysDate.getDate());
+
+    let yesterdayString = formatDate(
+      yesterdaysDate,
+      'yyyy-MM-ddT00:00:00',
+      'en-UK',
+      '+0000'
+    );
+
+    let oneWeekAgosDate = new Date().setDate(yesterdaysDate.getDate() - 7);
+
+    let oneWeekAgoString = formatDate(
+      oneWeekAgosDate,
+      'yyyy-MM-ddT00:00:00',
+      'en-UK',
+      '+0000'
+    );
+
     return this.http.get<ExchangeRate[]>(
       this.BASE_URL +
         'exchangerate/' +
         coinId +
-        '/USD/history?period_id=6HRS&time_start=2021-01-01T00:00:00&time_end=2021-01-08T00:00:00',
+        '/USD/history?period_id=12HRS&time_start=' +
+        oneWeekAgoString +
+        '&time_end=' +
+        yesterdayString,
       this.HTTP_OPTIONS
     );
   }
