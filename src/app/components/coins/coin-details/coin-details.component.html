@@ -32,14 +32,16 @@
   </button>
 </div>
 
-<ngx-charts-line-chart
-  [results]="chartData"
-  [view]="view"
-  [xAxisLabel]="xAxisLabel"
-  [yAxisLabel]="yAxisLabel"
-  [showXAxisLabel]="showXAxisLabel"
-  [showYAxisLabel]="showYAxisLabel"
-  [xAxis]="xAxis"
-  [yAxis]="yAxis"
->
-</ngx-charts-line-chart>
+<div class="chart-parent">
+  <ngx-charts-line-chart
+    [results]="chartData"
+    [view]="view"
+    [xAxisLabel]="xAxisLabel"
+    [yAxisLabel]="yAxisLabel"
+    [showXAxisLabel]="showXAxisLabel"
+    [showYAxisLabel]="showYAxisLabel"
+    [xAxis]="xAxis"
+    [yAxis]="yAxis"
+  >
+  </ngx-charts-line-chart>
+</div>

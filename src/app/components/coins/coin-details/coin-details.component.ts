@@ -1,7 +1,9 @@
+import { formatDate } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ChartData, SeriesItem } from 'src/app/models/chart-data';
 import { Coin } from 'src/app/models/coin';
 import { ExchangeRate, MockedExchangeRate } from 'src/app/models/exchange-rate';
+import { ApiCoinsService } from 'src/app/services/coins/api-coins.service';
 import { ICoinsService } from 'src/app/services/coins/interface-coins.service';
 import { MockedCoinsService } from 'src/app/services/coins/mocked-coins.service';
 
@@ -9,7 +11,7 @@ import { MockedCoinsService } from 'src/app/services/coins/mocked-coins.service'
   selector: 'app-coin-details',
   templateUrl: './coin-details.component.html',
   styleUrls: ['./coin-details.component.scss'],
-  providers: [{ provide: ICoinsService, useClass: MockedCoinsService }], // ApiCoinsService }], //
+  providers: [{ provide: ICoinsService, useClass: ApiCoinsService }], //MockedCoinsService }], //
 })
 export class CoinDetailsComponent implements OnInit {
   @Input()
@@ -20,7 +22,7 @@ export class CoinDetailsComponent implements OnInit {
 
   selectedCoin!: Coin;
   chartData!: ChartData[] | undefined;
-  view: any = [700, 400];
+  view: [number, number] = [700, 400];
   showYAxisLabel: boolean = true;
   showXAxisLabel: boolean = true;
   xAxis: boolean = true;
@@ -33,7 +35,10 @@ export class CoinDetailsComponent implements OnInit {
   constructor(private coinsService: ICoinsService) {}
 
   ngOnInit(): void {
-    this.selectedCoin = this.coinsService.getCoinById(this.selectedCoinId);
+    this.coinsService.getCoinById(this.selectedCoinId).subscribe((c) => {
+      console.log(c);
+      this.selectedCoin = c;
+    });
     this.coinsService
       .getLastWeeksExchangeRate(this.selectedCoinId)
       .subscribe((r) => {
@@ -47,7 +52,7 @@ export class CoinDetailsComponent implements OnInit {
     let newChartData = [{ name: coinId, series: <SeriesItem[]>[] }];
     exchangeRates.forEach((exchangeRate) => {
       newChartData[0].series.push({
-        name: exchangeRate.time_period_start,
+        name: exchangeRate.time_period_start.slice(0, 12),
         value: exchangeRate.rate_open,
       });
     });
