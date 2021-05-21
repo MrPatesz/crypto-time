@@ -16,57 +16,12 @@
   </button>
 
   <div class="flex">
-    <mat-tab-group
-      class="w-100"
-      (selectedTabChange)="onTabChange(tabGroup.selectedIndex)"
-      #tabGroup
-    >
+    <mat-tab-group class="w-100">
       <mat-tab *ngFor="let coinId of coinIds" [label]="coinId">
-        <div class="flex-justify-between">
-          <form class="mt-10">
-            <mat-form-field appearance="fill">
-              <mat-label>US Dollar</mat-label>
-              <input
-                [(ngModel)]="usdValue"
-                name="usdValue"
-                matInput
-                type="number"
-                (change)="usdValueChanged()"
-              />
-            </mat-form-field>
-
-            <mat-form-field class="ml-20" appearance="fill">
-              <mat-label>{{ selectedCoin.name }}</mat-label>
-              <input
-                [(ngModel)]="coinValue"
-                name="coinValue"
-                matInput
-                type="number"
-                (change)="coinValueChanged()"
-              />
-            </mat-form-field>
-          </form>
-          <button
-            class="mb-auto mt-10"
-            (click)="removeCoin(coinId)"
-            mat-raised-button
-            color="accent"
-          >
-            Remove
-          </button>
-        </div>
-
-        <ngx-charts-line-chart
-          [results]="chartData"
-          [view]="view"
-          [xAxisLabel]="xAxisLabel"
-          [yAxisLabel]="yAxisLabel"
-          [showXAxisLabel]="showXAxisLabel"
-          [showYAxisLabel]="showYAxisLabel"
-          [xAxis]="xAxis"
-          [yAxis]="yAxis"
-        >
-        </ngx-charts-line-chart>
+        <app-coin-details
+          [selectedCoinId]="coinId"
+          (removeCoin)="removeCoin($event)"
+        ></app-coin-details>
       </mat-tab>
       <!--<mat-tab label="+"></mat-tab>-->
       <button mat-raised-button color="primary">Login</button>
