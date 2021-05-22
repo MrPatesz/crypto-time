@@ -1,4 +1,3 @@
-import { formatDate } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ChartData, SeriesItem } from 'src/app/models/chart-data';
 import { Coin } from 'src/app/models/coin';
