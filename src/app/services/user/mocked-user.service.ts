@@ -64,11 +64,9 @@ export class MockedUserService implements IUserService {
     let loggedInAs = this.getLoggedInAs();
     let user = this.users.find((u) => u.username === loggedInAs);
 
-    this.users = this.users.filter((u) => u.username !== loggedInAs);
-
     if (user !== undefined) {
-      user.savedCoinIds.push(coinId);
-      this.users.push(user);
+      if (this.getSavedCoinIds().find((c) => c === coinId) === undefined)
+        user.savedCoinIds.push(coinId);
     }
 
     localStorage.setItem('users', JSON.stringify(this.users));
@@ -76,14 +74,10 @@ export class MockedUserService implements IUserService {
 
   removeCoin(coinId: string): void {
     let loggedInAs = this.getLoggedInAs();
-
     let user = this.users.find((u) => u.username === loggedInAs);
-
-    this.users = this.users.filter((u) => u.username !== loggedInAs);
 
     if (user !== undefined) {
       user.savedCoinIds = user.savedCoinIds.filter((c) => c !== coinId);
-      this.users.push(user);
     }
 
     localStorage.setItem('users', JSON.stringify(this.users));
