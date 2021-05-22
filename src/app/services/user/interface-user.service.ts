@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
+import { CanActivate } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
-export abstract class IUserService {
-
+export abstract class IUserService implements CanActivate {
   abstract register(username: string, password: string): boolean;
   
   abstract login(username: string, password: string): string;
@@ -18,4 +18,6 @@ export abstract class IUserService {
   abstract removeCoin(coinId: string): void;
 
   abstract getLoggedInAs(): string;
+
+  abstract canActivate(): boolean;
 }
