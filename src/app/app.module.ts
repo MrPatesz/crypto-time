@@ -20,6 +20,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatSelectModule } from '@angular/material/select';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { CoinDetailsComponent } from './components/coins/coin-details/coin-details.component';
+import { CoinsRealTimeComponent } from './components/coins/coins-real-time/coins-real-time.component';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,7 @@ import { CoinDetailsComponent } from './components/coins/coin-details/coin-detai
     CoinsComponent,
     AddCoinComponent,
     CoinDetailsComponent,
+    CoinsRealTimeComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,6 +47,7 @@ import { CoinDetailsComponent } from './components/coins/coin-details/coin-detai
     HttpClientModule,
     MatSelectModule,
     NgxChartsModule,
+    MatTableModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

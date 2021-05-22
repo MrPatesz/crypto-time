@@ -26,19 +26,6 @@
       <!--<mat-tab label="+"></mat-tab>-->
       <button mat-raised-button color="primary">Login</button>
     </mat-tab-group>
-    <div class="div-300-500 ml-20">
-      <ul>
-        <li *ngFor="let coinId of coinIds">
-          <div>
-            {{ coinId }}
-          </div>
-
-          <div class="w-100">
-            <div>high</div>
-            <div>low</div>
-          </div>
-        </li>
-      </ul>
-    </div>
+    <app-coins-real-time [coinIds]="coinIds"></app-coins-real-time>
   </div>
 </div>
