@@ -2,9 +2,19 @@
   <mat-card-content>
     <form (ngSubmit)="onSubmit()">
       <h2>Log In</h2>
+
+      <mat-error *ngIf="loginInvalid"> Wrong password! </mat-error>
+
       <mat-form-field appearance="fill">
         <mat-label>Username</mat-label>
-        <input [(ngModel)]="username" name="username" matInput type="text" />
+        <input
+          [(ngModel)]="username"
+          name="username"
+          matInput
+          type="text"
+          required
+        />
+        <mat-error> Please provide a username </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
@@ -14,7 +24,9 @@
           name="password"
           matInput
           type="password"
+          required
         />
+        <mat-error> Please provide a password </mat-error>
       </mat-form-field>
 
       <button type="submit" mat-raised-button color="primary">Login</button>

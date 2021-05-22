@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   username: string = '';
   password: string = '';
+  loginInvalid: boolean = false;
 
   constructor(private loginService: IUserService, private router: Router) {}
 
@@ -23,6 +24,8 @@ export class LoginComponent implements OnInit {
     if (loggedInAs !== '') {
       localStorage.setItem('loggedInAs', loggedInAs);
       this.router.navigate(['coins']);
+    } else {
+      this.loginInvalid = true;
     }
   }
 }
