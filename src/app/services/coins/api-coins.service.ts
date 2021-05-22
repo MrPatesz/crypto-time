@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Coin } from 'src/app/models/coin';
 import { ExchangeRate } from 'src/app/models/exchange-rate';
 import { formatDate } from '@angular/common';
+import { Symbol } from 'src/app/models/symbol';
 
 @Injectable({
   providedIn: 'root',
@@ -57,6 +58,15 @@ export class ApiCoinsService implements ICoinsService {
         oneWeekAgoString +
         '&time_end=' +
         yesterdayString,
+      this.HTTP_OPTIONS
+    );
+  }
+
+  getSymbols(coinIds: string[]): Observable<Symbol[]> {
+    return this.http.get<Symbol[]>(
+      this.BASE_URL +
+        'symbols?filter_symbol_id=BINANCE_SPOT_&filter_asset_id=' +
+        coinIds.toString(),
       this.HTTP_OPTIONS
     );
   }

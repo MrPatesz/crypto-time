@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { of } from 'rxjs/internal/observable/of';
 import { Coin } from 'src/app/models/coin';
 import { ExchangeRate, MockedExchangeRate } from 'src/app/models/exchange-rate';
+import { Symbol } from 'src/app/models/symbol';
 
 @Injectable({
   providedIn: 'root',
@@ -32,5 +33,11 @@ export class MockedCoinsService implements ICoinsService {
     } else {
       return of(exchangeRates[0].rates);
     }
+  }
+
+  getSymbols(coinIds: string[]): Observable<Symbol[]> {
+    return of(
+      <Symbol[]>JSON.parse(localStorage.getItem('mockedSymbols') ?? '[]')
+    );
   }
 }
