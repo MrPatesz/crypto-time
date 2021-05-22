@@ -16,7 +16,7 @@
   </button>
 
   <div class="flex">
-    <mat-tab-group class="w-100">
+    <mat-tab-group class="tab-group">
       <mat-tab *ngFor="let coinId of coinIds" [label]="coinId">
         <app-coin-details
           [selectedCoinId]="coinId"
@@ -26,6 +26,6 @@
       <!--<mat-tab label="+"></mat-tab>-->
       <button mat-raised-button color="primary">Login</button>
     </mat-tab-group>
-    <app-coins-real-time [coinIds]="coinIds"></app-coins-real-time>
+    <app-coins-real-time class="w-300px" [coinIds]="coinIds"></app-coins-real-time>
   </div>
 </div>

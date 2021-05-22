@@ -23,6 +23,10 @@
   display: flex;
 }
 
-.w-100 {
-  width: 100%;
+.tab-group {
+  width: calc(100vw - 300px - 2 * 10px - 20px - 2 * 2px - 18px);
+}
+
+.w-300px {
+  width: 300px;
 }
