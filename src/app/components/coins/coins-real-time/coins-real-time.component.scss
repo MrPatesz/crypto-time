@@ -1,19 +1,15 @@
-.div-300-500 {
-  width: 300px;
-  height: 500px;
-  border: solid 4px #8960cf;
-}
-
-.ml-20 {
+.table {
+  min-width: 300px;
+  border: solid 2px black;
   margin-left: 20px;
 }
 
-.green {
+.high {
   color: rgb(11, 189, 11);
   font-weight: bold;
 }
 
-.red {
+.low {
   color: red;
   font-weight: bold;
 }
@@ -23,12 +19,17 @@ th {
   font-size: medium;
 }
 
-td {
+.text-center {
   text-align: center;
 }
 
-.text-center {
-  text-align: center;
+.table-header {
+  padding: 8px 0px 8px 0px;
+  color: #edc423;
+  background-color: black;
+  margin-bottom: 0;
+  font-weight: bold;
+  letter-spacing: 2px;
 }
 
 .w-100 {
