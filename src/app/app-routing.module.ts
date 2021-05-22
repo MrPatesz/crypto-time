@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CoinsComponent } from './components/coins/coins.component';
 import { LoginComponent } from './components/login/login.component';
-import { MockedUserService } from './services/user/mocked-user.service';
+import { AuthGuardService } from './services/auth-guard.service';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -10,7 +10,7 @@ const routes: Routes = [
   {
     path: 'coins',
     component: CoinsComponent,
-    canActivate: [MockedUserService],
+    canActivate: [AuthGuardService],
   },
 ];
 

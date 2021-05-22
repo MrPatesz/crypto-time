@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { IUserService } from './interface-user.service';
 
 interface User {
@@ -14,7 +13,7 @@ interface User {
 export class MockedUserService implements IUserService {
   users: User[];
 
-  constructor(public router: Router) {
+  constructor() {
     this.users = <User[]>JSON.parse(localStorage.getItem('users') ?? '[]');
   }
 
@@ -88,14 +87,5 @@ export class MockedUserService implements IUserService {
     }
 
     localStorage.setItem('users', JSON.stringify(this.users));
-  }
-
-  canActivate() {
-    if (this.getLoggedInAs() === '') {
-      this.router.navigate(['login']);
-      return false;
-    } else {
-      return true;
-    }
   }
 }
