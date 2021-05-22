@@ -1,16 +1,18 @@
 <div class="div-300-500 ml-20">
   <table mat-table [dataSource]="tableData" class="w-100">
     <ng-container matColumnDef="coinId">
-      <th mat-header-cell *matHeaderCellDef class="text-center"> Coin </th>
-      <td mat-cell *matCellDef="let coin"> {{coin.coinId}} </td>
+      <th mat-header-cell *matHeaderCellDef class="text-center w-30">Coin</th>
+      <td mat-cell *matCellDef="let coin" class="w-30">{{ coin.coinId }}</td>
     </ng-container>
     <ng-container matColumnDef="high">
-      <th mat-header-cell *matHeaderCellDef class="text-center"> High </th>
-      <td mat-cell *matCellDef="let coin" class="green"> {{coin.high}} </td>
+      <th mat-header-cell *matHeaderCellDef class="text-center w-35">High</th>
+      <td mat-cell *matCellDef="let coin" class="green w-35">
+        {{ coin.high }}
+      </td>
     </ng-container>
     <ng-container matColumnDef="low">
-      <th mat-header-cell *matHeaderCellDef class="text-center"> Low </th>
-      <td mat-cell *matCellDef="let coin" class="red"> {{coin.low}} </td>
+      <th mat-header-cell *matHeaderCellDef class="text-center w-35">Low</th>
+      <td mat-cell *matCellDef="let coin" class="red w-35">{{ coin.low }}</td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
