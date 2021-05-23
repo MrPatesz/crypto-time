@@ -67,8 +67,7 @@ export class ApiCoinsService implements ICoinsService {
     let yesterdayString = formatDate(
       yesterdaysDate,
       'yyyy-MM-ddT00:00:00',
-      'en-UK',
-      '+0000'
+      'en-UK'
     );
 
     let oneWeekAgosDate = new Date().setDate(yesterdaysDate.getDate() - 7);
@@ -76,8 +75,7 @@ export class ApiCoinsService implements ICoinsService {
     let oneWeekAgoString = formatDate(
       oneWeekAgosDate,
       'yyyy-MM-ddT00:00:00',
-      'en-UK',
-      '+0000'
+      'en-UK'
     );
 
     return this.http.get<ExchangeRate[]>(
