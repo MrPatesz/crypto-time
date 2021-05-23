@@ -50,10 +50,10 @@ export class CoinsRealTimeComponent implements OnInit {
       }
       let response = <WebsocketMessage>message;
       this.coinIds.forEach((id) => {
-        let time = new Date().getTime();
         let symbolId = 'BINANCE_SPOT_' + id + '_USDT';
         if (response.symbol_id === symbolId) {
           let tableRowData = this.tableData.find((d) => d.coinId === id);
+          let time = new Date().getTime();
           let lastUpdated = new Date(tableRowData!.lastUpdated).getTime();
           if (time - lastUpdated >= 1000) {
             tableRowData!.high = response.price_high;
