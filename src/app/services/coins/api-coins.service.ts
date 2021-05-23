@@ -19,20 +19,20 @@ export class ApiCoinsService implements ICoinsService {
     headers: new HttpHeaders({ 'X-CoinAPI-Key': this.API_KEY }),
   };
 
-  private subject: WebSocketSubject<unknown> = webSocket(
+  private websocket: WebSocketSubject<unknown> = webSocket(
     'ws://ws.coinapi.io/v1/'
   );
 
   constructor(private http: HttpClient) {}
 
   subcribeToWebsocket(subscriptionFunction: SubscriptionFunction) {
-    this.subject.subscribe((message) => {
+    this.websocket.subscribe((message) => {
       subscriptionFunction(<WebsocketMessage>message);
     });
   }
 
   closeWebsocket() {
-    this.subject.complete();
+    this.websocket.complete();
   }
 
   sendHelloMessage(coinIds: string[], symbols: string[]) {
@@ -46,7 +46,7 @@ export class ApiCoinsService implements ICoinsService {
       subscribe_update_limit_ms_quote: 999,
       subscribe_filter_symbol_id: symbols,
     };
-    this.subject.next(helloMessage);
+    this.websocket.next(helloMessage);
   }
 
   getCoins() {
@@ -61,31 +61,17 @@ export class ApiCoinsService implements ICoinsService {
   }
 
   getLastWeeksExchangeRate(coinId: string): Observable<ExchangeRate[]> {
-    let yesterdaysDate = new Date();
-    yesterdaysDate.setDate(yesterdaysDate.getDate());
-
-    let yesterdayString = formatDate(
-      yesterdaysDate,
-      'yyyy-MM-ddT00:00:00',
-      'en-UK'
-    );
-
-    let oneWeekAgosDate = new Date().setDate(yesterdaysDate.getDate() - 7);
-
-    let oneWeekAgoString = formatDate(
-      oneWeekAgosDate,
-      'yyyy-MM-ddT00:00:00',
-      'en-UK'
-    );
+    let today = new Date();
+    let oneWeekAgo = new Date().setDate(today.getDate() - 7);
 
     return this.http.get<ExchangeRate[]>(
       this.BASE_URL +
         'exchangerate/' +
         coinId +
         '/USD/history?period_id=12HRS&time_start=' +
-        oneWeekAgoString +
+        this.dateToUtcString(oneWeekAgo) +
         '&time_end=' +
-        yesterdayString,
+        this.dateToUtcString(today),
       this.HTTP_OPTIONS
     );
   }
@@ -96,6 +82,14 @@ export class ApiCoinsService implements ICoinsService {
         'symbols?filter_symbol_id=BINANCE_SPOT_&filter_asset_id=' +
         coinIds.toString(),
       this.HTTP_OPTIONS
+    );
+  }
+
+  private dateToUtcString(date: Date | number): string {
+    return formatDate(
+      date,
+      'yyyy-MM-ddT00:00:00',
+      'en-UK'
     );
   }
 }
