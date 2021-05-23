@@ -22,6 +22,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { CoinDetailsComponent } from './components/coins/coin-details/coin-details.component';
 import { CoinsRealTimeComponent } from './components/coins/coins-real-time/coins-real-time.component';
 import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { MatTableModule } from '@angular/material/table';
     MatSelectModule,
     NgxChartsModule,
     MatTableModule,
+    MatIconModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
