@@ -8,13 +8,14 @@ interface TableItem {
   coinId: string;
   high: number;
   low: number;
+  lastUpdated: string;
 }
 
 @Component({
   selector: 'app-coins-real-time',
   templateUrl: './coins-real-time.component.html',
   styleUrls: ['./coins-real-time.component.scss'],
-  providers: [{ provide: ICoinsService, useClass: MockedCoinsService }], //ApiCoinsService }], //
+  providers: [{ provide: ICoinsService, useClass: ApiCoinsService }], //MockedCoinsService }], //
 })
 export class CoinsRealTimeComponent implements OnInit {
   @Input()
@@ -28,7 +29,12 @@ export class CoinsRealTimeComponent implements OnInit {
   private fillTableData() {
     this.tableData = [];
     this.coinIds.forEach((c) => {
-      this.tableData.push({ coinId: c, high: 0, low: 0 });
+      this.tableData.push({
+        coinId: c,
+        high: 0,
+        low: 0,
+        lastUpdated: new Date().toString(),
+      });
     });
   }
 
@@ -41,14 +47,19 @@ export class CoinsRealTimeComponent implements OnInit {
       }
       let response = <WebsocketMessage>message;
       this.coinIds.forEach((id) => {
+        let time = new Date().getTime();
         if (
           response.symbol_id.includes(id) &&
           response.symbol_id.includes('USD') &&
           response.symbol_id.indexOf(id) < response.symbol_id.indexOf('USD')
         ) {
           let tableRowData = this.tableData.find((d) => d.coinId === id);
-          tableRowData!.high = response.price_high;
-          tableRowData!.low = response.price_low;
+          let lastUpdated = new Date(tableRowData!.lastUpdated).getTime();
+          if (time - lastUpdated > 1000) {
+            tableRowData!.high = response.price_high;
+            tableRowData!.low = response.price_low;
+            tableRowData!.lastUpdated = new Date().toString();
+          }
         }
       });
     };
