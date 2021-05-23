@@ -51,11 +51,8 @@ export class CoinsRealTimeComponent implements OnInit {
       let response = <WebsocketMessage>message;
       this.coinIds.forEach((id) => {
         let time = new Date().getTime();
-        if (
-          response.symbol_id.includes(id) &&
-          response.symbol_id.includes('USD') &&
-          response.symbol_id.indexOf(id) < response.symbol_id.indexOf('USD')
-        ) {
+        let symbolId = 'BINANCE_SPOT_' + id + '_USDT';
+        if (response.symbol_id === symbolId) {
           let tableRowData = this.tableData.find((d) => d.coinId === id);
           let lastUpdated = new Date(tableRowData!.lastUpdated).getTime();
           if (time - lastUpdated >= 1000) {
