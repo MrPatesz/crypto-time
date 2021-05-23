@@ -1,47 +1,49 @@
-<div class="flex-justify-between">
-  <form class="mt-10">
-    <mat-form-field appearance="fill">
-      <mat-label>US Dollar</mat-label>
-      <input
-        [(ngModel)]="usdValue"
-        name="usdValue"
-        matInput
-        type="number"
-        (change)="usdValueChanged()"
-      />
-    </mat-form-field>
+<div class="max-w-content">
+  <div class="flex-justify-between">
+    <form class="mt-10">
+      <mat-form-field class="mr-20" appearance="fill">
+        <mat-label>US Dollar</mat-label>
+        <input
+          [(ngModel)]="usdValue"
+          name="usdValue"
+          matInput
+          type="number"
+          (change)="usdValueChanged()"
+        />
+      </mat-form-field>
 
-    <mat-form-field class="ml-20" appearance="fill">
-      <mat-label>{{ selectedCoin?.name }}</mat-label>
-      <input
-        [(ngModel)]="coinValue"
-        name="coinValue"
-        matInput
-        type="number"
-        (change)="coinValueChanged()"
-      />
-    </mat-form-field>
-  </form>
-  <button
-    class="mb-auto mt-10"
-    (click)="remove()"
-    mat-raised-button
-    color="accent"
-  >
-    Remove
-  </button>
-</div>
+      <mat-form-field appearance="fill">
+        <mat-label>{{ selectedCoin?.name }}</mat-label>
+        <input
+          [(ngModel)]="coinValue"
+          name="coinValue"
+          matInput
+          type="number"
+          (change)="coinValueChanged()"
+        />
+      </mat-form-field>
+    </form>
+    <button
+      class="mb-auto mt-10"
+      (click)="remove()"
+      mat-raised-button
+      color="accent"
+    >
+      Remove
+    </button>
+  </div>
 
-<div class="chart-parent">
-  <ngx-charts-line-chart
-    [results]="chartData"
-    [view]="view"
-    [xAxisLabel]="xAxisLabel"
-    [yAxisLabel]="yAxisLabel"
-    [showXAxisLabel]="showXAxisLabel"
-    [showYAxisLabel]="showYAxisLabel"
-    [xAxis]="xAxis"
-    [yAxis]="yAxis"
-  >
-  </ngx-charts-line-chart>
+  <div class="chart-parent">
+    <ngx-charts-line-chart
+      [results]="chartData"
+      [view]="view"
+      [xAxisLabel]="xAxisLabel"
+      [yAxisLabel]="yAxisLabel"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxis]="xAxis"
+      [yAxis]="yAxis"
+    >
+    </ngx-charts-line-chart>
+  </div>
 </div>
