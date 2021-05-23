@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { WebsocketMessage } from 'src/app/models/websocket-message';
 import { ApiCoinsService } from 'src/app/services/coins/api-coins.service';
 import { ICoinsService } from 'src/app/services/coins/interface-coins.service';
@@ -24,8 +23,6 @@ export class CoinsRealTimeComponent implements OnInit {
   tableData: TableItem[] = [];
   displayedColumns: string[] = ['coinId', 'high', 'low'];
 
-  subject: WebSocketSubject<unknown> = webSocket('ws://ws.coinapi.io/v1/');
-
   constructor(private coinsService: ICoinsService) {}
 
   private fillTableData() {
@@ -38,11 +35,10 @@ export class CoinsRealTimeComponent implements OnInit {
   ngOnInit(): void {
     this.fillTableData();
 
-    this.subject.subscribe((message) => {
+    let subscriptionFunction = (message: WebsocketMessage) => {
       if (this.coinIds.length !== this.tableData.length) {
         this.fillTableData();
       }
-
       let response = <WebsocketMessage>message;
       this.coinIds.forEach((id) => {
         if (
@@ -55,29 +51,19 @@ export class CoinsRealTimeComponent implements OnInit {
           tableRowData!.low = response.price_low;
         }
       });
-    });
+    };
+    this.coinsService.subcribeToWebsocket(subscriptionFunction);
 
     this.coinsService.getSymbols(this.coinIds).subscribe((symbols) => {
       localStorage.setItem('mockedSymbols', JSON.stringify(symbols));
-      this.sendHelloMessage(symbols.map((s) => s.symbol_id));
+      this.coinsService.sendHelloMessage(
+        this.coinIds,
+        symbols.map((s) => s.symbol_id)
+      );
     });
   }
 
   ngOnDestroy(): void {
-    this.subject.complete();
-  }
-
-  private sendHelloMessage(symbols: string[]) {
-    let helloMessage = {
-      type: 'hello',
-      apikey: 'asd_80F87126-EAF7-4CBC-9D3B-17CC8D136633',
-      heartbeat: false,
-      subscribe_data_type: ['ohlcv'],
-      subscribe_filter_period_id: ['1MIN'],
-      subscribe_filter_asset_id: this.coinIds,
-      subscribe_update_limit_ms_quote: 5000,
-      subscribe_filter_symbol_id: symbols,
-    };
-    this.subject.next(helloMessage);
+    this.coinsService.closeWebsocket();
   }
 }

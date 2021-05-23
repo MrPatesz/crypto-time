@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ICoinsService } from './interface-coins.service';
+import { ICoinsService, SubscriptionFunction } from './interface-coins.service';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs/internal/observable/of';
 import { Coin } from 'src/app/models/coin';
@@ -11,6 +11,9 @@ import { Symbol } from 'src/app/models/symbol';
 })
 export class MockedCoinsService implements ICoinsService {
   constructor() {}
+  subcribeToWebsocket(subscriptionFunction: SubscriptionFunction): void {}
+  closeWebsocket(): void {}
+  sendHelloMessage(coinIds: string[], symbols: string[]): void {}
 
   getCoins() {
     return of(<Coin[]>JSON.parse(localStorage.getItem('mockedCoins') ?? '[]'));

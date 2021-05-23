@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { ICoinsService } from './interface-coins.service';
+import { ICoinsService, SubscriptionFunction } from './interface-coins.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Coin } from 'src/app/models/coin';
 import { ExchangeRate } from 'src/app/models/exchange-rate';
 import { formatDate } from '@angular/common';
 import { Symbol } from 'src/app/models/symbol';
+import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
+import { WebsocketMessage } from 'src/app/models/websocket-message';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +19,35 @@ export class ApiCoinsService implements ICoinsService {
     headers: new HttpHeaders({ 'X-CoinAPI-Key': this.API_KEY }),
   };
 
+  private subject: WebSocketSubject<unknown> = webSocket(
+    'ws://ws.coinapi.io/v1/'
+  );
+
   constructor(private http: HttpClient) {}
+
+  subcribeToWebsocket(subscriptionFunction: SubscriptionFunction) {
+    this.subject.subscribe((message) => {
+      subscriptionFunction(<WebsocketMessage>message);
+    });
+  }
+
+  closeWebsocket() {
+    this.subject.complete();
+  }
+
+  sendHelloMessage(coinIds: string[], symbols: string[]) {
+    let helloMessage = {
+      type: 'hello',
+      apikey: this.API_KEY,
+      heartbeat: false,
+      subscribe_data_type: ['ohlcv'],
+      subscribe_filter_period_id: ['1MIN'],
+      subscribe_filter_asset_id: coinIds,
+      subscribe_update_limit_ms_quote: 5000,
+      subscribe_filter_symbol_id: symbols,
+    };
+    this.subject.next(helloMessage);
+  }
 
   getCoins() {
     return this.http.get<Coin[]>(this.BASE_URL + 'assets', this.HTTP_OPTIONS);
