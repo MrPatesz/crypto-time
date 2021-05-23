@@ -11,6 +11,7 @@ import { Symbol } from 'src/app/models/symbol';
 })
 export class MockedCoinsService implements ICoinsService {
   constructor() {}
+  
   subcribeToWebsocket(subscriptionFunction: SubscriptionFunction): void {}
   closeWebsocket(): void {}
   sendHelloMessage(coinIds: string[], symbols: string[]): void {}
