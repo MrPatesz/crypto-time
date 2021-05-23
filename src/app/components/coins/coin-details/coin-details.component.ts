@@ -2,15 +2,15 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ChartData, SeriesItem } from 'src/app/models/chart-data';
 import { Coin } from 'src/app/models/coin';
 import { ExchangeRate, MockedExchangeRate } from 'src/app/models/exchange-rate';
-import { ApiCoinsService } from 'src/app/services/coins/api-coins.service';
 import { ICoinsService } from 'src/app/services/coins/interface-coins.service';
+import { ApiCoinsService } from 'src/app/services/coins/api-coins.service';
 import { MockedCoinsService } from 'src/app/services/coins/mocked-coins.service';
 
 @Component({
   selector: 'app-coin-details',
   templateUrl: './coin-details.component.html',
   styleUrls: ['./coin-details.component.scss'],
-  providers: [{ provide: ICoinsService, useClass: MockedCoinsService }], //ApiCoinsService }], //
+  providers: [{ provide: ICoinsService, useClass: ApiCoinsService }], // MockedCoinsService }], //
 })
 export class CoinDetailsComponent implements OnInit {
   @Input()
