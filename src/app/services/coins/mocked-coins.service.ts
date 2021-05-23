@@ -11,7 +11,7 @@ import { Symbol } from 'src/app/models/symbol';
 })
 export class MockedCoinsService implements ICoinsService {
   constructor() {}
-  
+
   subcribeToWebsocket(subscriptionFunction: SubscriptionFunction): void {}
   closeWebsocket(): void {}
   sendHelloMessage(coinIds: string[], symbols: string[]): void {}
@@ -35,7 +35,7 @@ export class MockedCoinsService implements ICoinsService {
     if (returnValue) {
       return of(returnValue.rates);
     } else {
-      return of(exchangeRates[0].rates);
+      return of(exchangeRates[0].rates ?? []);
     }
   }
 
