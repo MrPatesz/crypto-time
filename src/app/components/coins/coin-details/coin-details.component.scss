@@ -1,6 +1,14 @@
+.chart-parent {
+  display: grid;
+}
+
 .flex-justify-between {
   display: flex;
   justify-content: space-between;
+}
+
+.max-w-content {
+  max-width: fit-content;
 }
 
 .mb-auto {
@@ -13,12 +21,4 @@
 
 .mt-10 {
   margin-top: 10px;
-}
-
-.chart-parent {
-  display: grid;
-}
-
-.max-w-content {
-  max-width: fit-content;
 }

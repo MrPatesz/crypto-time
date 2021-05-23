@@ -2,6 +2,10 @@
   margin: 10px;
 }
 
+.tab-group {
+  width: calc(100vw - 300px - 2 * 10px - 20px - 2 * 2px);
+}
+
 .flex-justify-between {
   display: flex;
   justify-content: space-between;
@@ -21,10 +25,6 @@
 
 .flex {
   display: flex;
-}
-
-.tab-group {
-  width: calc(100vw - 300px - 2 * 10px - 20px - 2 * 2px);
 }
 
 .w-300px {
