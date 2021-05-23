@@ -1,3 +1,19 @@
+.table-header {
+  padding: 8px 0px 8px 0px;
+  background-color: black;
+  color: #edc423;
+
+  .header-title {
+    margin-bottom: 0;
+    font-weight: bold;
+    letter-spacing: 2px;
+  }
+
+  .header-subtitle {
+    font-style: italic;
+  }
+}
+
 .table {
   width: 300px;
   border: solid 2px black;
@@ -21,15 +37,6 @@ th {
 
 .text-center {
   text-align: center;
-}
-
-.table-header {
-  padding: 8px 0px 8px 0px;
-  color: #edc423;
-  background-color: black;
-  margin-bottom: 0;
-  font-weight: bold;
-  letter-spacing: 2px;
 }
 
 .w-100 {
