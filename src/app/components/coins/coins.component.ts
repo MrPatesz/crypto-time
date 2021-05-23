@@ -12,14 +12,15 @@ import { MockedUserService } from 'src/app/services/user/mocked-user.service';
   providers: [{ provide: IUserService, useClass: MockedUserService }],
 })
 export class CoinsComponent implements OnInit {
+  loggedInAs!: string | null;
+  coinIds: string[] = [];
+  selectedTabIndex: number = 0;
+
   constructor(
     private userService: IUserService,
     private router: Router,
     public dialog: MatDialog
   ) {}
-
-  loggedInAs!: string | null;
-  coinIds: string[] = [];
 
   ngOnInit(): void {
     this.loggedInAs = this.userService.getLoggedInAs();
@@ -46,5 +47,12 @@ export class CoinsComponent implements OnInit {
   removeCoin(coinId: string) {
     this.userService.removeCoin(coinId);
     this.coinIds = this.coinIds.filter((c) => c !== coinId);
+    if (this.selectedTabIndex === this.coinIds.length) {
+      this.selectedTabIndex--;
+    }
+  }
+
+  tabChanged(index: number) {
+    this.selectedTabIndex = index;
   }
 }

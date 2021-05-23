@@ -15,7 +15,8 @@
   </div>
 
   <div class="flex">
-    <mat-tab-group class="tab-group">
+    <mat-tab-group class="tab-group" [selectedIndex]="selectedTabIndex"
+    (selectedIndexChange)="tabChanged($event)">
       <mat-tab *ngFor="let coinId of coinIds" [label]="coinId">
         <app-coin-details
           [selectedCoinId]="coinId"
