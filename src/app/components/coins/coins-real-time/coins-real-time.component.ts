@@ -28,12 +28,13 @@ export class CoinsRealTimeComponent implements OnInit {
   constructor(private coinsService: ICoinsService) {}
 
   private fillTableData() {
+    let oldTableData = this.tableData;
     this.tableData = [];
-    this.coinIds.forEach((c) => {
+    this.coinIds.forEach((coinId) => {
       this.tableData.push({
-        coinId: c,
-        high: 0,
-        low: 0,
+        coinId: coinId,
+        high: oldTableData.find((d) => d.coinId === coinId)?.high ?? 0,
+        low: oldTableData.find((d) => d.coinId === coinId)?.low ?? 0,
         lastUpdated: new Date().toString(),
       });
     });
