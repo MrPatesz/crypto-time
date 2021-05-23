@@ -45,6 +45,7 @@ export class CoinsRealTimeComponent implements OnInit {
 
     let subscriptionFunction = (message: WebsocketMessage) => {
       if (this.coinIds.length !== this.tableData.length) {
+        this.getSymbolsAndSendHelloMessage();
         this.fillTableData();
       }
       let response = <WebsocketMessage>message;
@@ -67,6 +68,10 @@ export class CoinsRealTimeComponent implements OnInit {
     };
     this.coinsService.subcribeToWebsocket(subscriptionFunction);
 
+    this.getSymbolsAndSendHelloMessage();
+  }
+
+  private getSymbolsAndSendHelloMessage() {
     this.coinsService.getSymbols(this.coinIds).subscribe((symbols) => {
       this.persistMockData(symbols);
       this.coinsService.sendHelloMessage(
