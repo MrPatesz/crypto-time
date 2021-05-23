@@ -10,7 +10,7 @@ import { MockedCoinsService } from 'src/app/services/coins/mocked-coins.service'
   selector: 'app-coin-details',
   templateUrl: './coin-details.component.html',
   styleUrls: ['./coin-details.component.scss'],
-  providers: [{ provide: ICoinsService, useClass: MockedCoinsService }], //ApiCoinsService }], //
+  providers: [{ provide: ICoinsService, useClass: ApiCoinsService }], //MockedCoinsService }], //
 })
 export class CoinDetailsComponent implements OnInit {
   @Input()
@@ -72,17 +72,14 @@ export class CoinDetailsComponent implements OnInit {
     let updateRate = mockedExchangeRates.find((ex) => ex.coinId === coinId);
 
     if (updateRate) {
-      mockedExchangeRates = mockedExchangeRates.filter(
-        (rate) => rate.coinId !== coinId
-      );
-      mockedExchangeRates.push({ coinId: coinId, rates: r });
+      updateRate.rates = r;
     } else {
       mockedExchangeRates.push({ coinId: coinId, rates: r });
-      localStorage.setItem(
-        'mockedExchangeRates',
-        JSON.stringify(mockedExchangeRates)
-      );
     }
+    localStorage.setItem(
+      'mockedExchangeRates',
+      JSON.stringify(mockedExchangeRates)
+    );
   }
 
   usdValueChanged() {
