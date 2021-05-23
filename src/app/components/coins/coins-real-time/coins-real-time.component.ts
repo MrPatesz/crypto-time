@@ -58,7 +58,7 @@ export class CoinsRealTimeComponent implements OnInit {
         ) {
           let tableRowData = this.tableData.find((d) => d.coinId === id);
           let lastUpdated = new Date(tableRowData!.lastUpdated).getTime();
-          if (time - lastUpdated > 1000) {
+          if (time - lastUpdated >= 1000) {
             tableRowData!.high = response.price_high;
             tableRowData!.low = response.price_low;
             tableRowData!.lastUpdated = new Date().toString();

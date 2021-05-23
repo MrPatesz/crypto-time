@@ -43,7 +43,7 @@ export class ApiCoinsService implements ICoinsService {
       subscribe_data_type: ['ohlcv'],
       subscribe_filter_period_id: ['1MIN'],
       subscribe_filter_asset_id: coinIds,
-      subscribe_update_limit_ms_quote: 5000,
+      subscribe_update_limit_ms_quote: 999,
       subscribe_filter_symbol_id: symbols,
     };
     this.subject.next(helloMessage);
