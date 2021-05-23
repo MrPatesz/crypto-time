@@ -24,8 +24,12 @@ export class AddCoinComponent implements OnInit {
     this.coinsService.getCoins().subscribe((data: Coin[]) => {
       data = data.filter((c) => c.type_is_crypto);
       this.coins = data.slice(0, 100);
-      localStorage.setItem('mockedCoins', JSON.stringify(this.coins));
+      this.persisMockData()
     });
+  }
+
+  private persisMockData() {
+    localStorage.setItem('mockedCoins', JSON.stringify(this.coins));
   }
 
   cancel() {

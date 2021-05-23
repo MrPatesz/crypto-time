@@ -3,6 +3,7 @@ import { WebsocketMessage } from 'src/app/models/websocket-message';
 import { ApiCoinsService } from 'src/app/services/coins/api-coins.service';
 import { ICoinsService } from 'src/app/services/coins/interface-coins.service';
 import { MockedCoinsService } from 'src/app/services/coins/mocked-coins.service';
+import { Symbol } from 'src/app/models/symbol';
 
 interface TableItem {
   coinId: string;
@@ -66,12 +67,16 @@ export class CoinsRealTimeComponent implements OnInit {
     this.coinsService.subcribeToWebsocket(subscriptionFunction);
 
     this.coinsService.getSymbols(this.coinIds).subscribe((symbols) => {
-      localStorage.setItem('mockedSymbols', JSON.stringify(symbols));
+      this.persistMockData(symbols);
       this.coinsService.sendHelloMessage(
         this.coinIds,
         symbols.map((s) => s.symbol_id)
       );
     });
+  }
+
+  private persistMockData(symbols: Symbol[]) {
+    localStorage.setItem('mockedSymbols', JSON.stringify(symbols));
   }
 
   ngOnDestroy(): void {
