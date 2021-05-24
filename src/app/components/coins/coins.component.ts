@@ -40,6 +40,10 @@ export class CoinsComponent implements OnInit {
     dialogRef.afterClosed().subscribe((coin) => {
       if (coin) {
         this.userService.saveCoin(coin);
+        if (this.coinIds.length === 1) {
+          this.selectedTabIndex = 1;
+          setTimeout(()=>{ this.selectedTabIndex = 0 }, 300)
+        }
       }
     });
   }
@@ -50,9 +54,5 @@ export class CoinsComponent implements OnInit {
     if (this.selectedTabIndex === this.coinIds.length) {
       this.selectedTabIndex--;
     }
-  }
-
-  tabChanged(index: number): void {
-    this.selectedTabIndex = index;
   }
 }
