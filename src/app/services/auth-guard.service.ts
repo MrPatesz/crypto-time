@@ -9,7 +9,7 @@ export class AuthGuardService implements CanActivate {
   constructor(public userService: MockedUserService, public router: Router) {}
 
   canActivate() {
-    if (this.userService.getLoggedInAs() === '') {
+    if (!this.userService.getLoggedInAs()) {
       this.router.navigate(['login']);
       return false;
     } else {

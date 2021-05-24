@@ -13,24 +13,28 @@ export class MockedCoinsService implements ICoinsService {
   constructor() {}
 
   subcribeToWebsocket(subscriptionFunction: SubscriptionFunction): void {}
+
   closeWebsocket(): void {}
+
   sendHelloMessage(coinIds: string[], symbols: string[]): void {}
 
-  getCoins() {
+  getCoins(): Observable<Coin[]> {
     return of(<Coin[]>JSON.parse(localStorage.getItem('mockedCoins') ?? '[]'));
   }
 
   getCoinById(coinId: string): Observable<Coin[]> {
     let coins = <Coin[]>JSON.parse(localStorage.getItem('mockedCoins') ?? '[]');
 
-    return of(Array.of(coins.find((c) => c.asset_id === coinId)!));
+    return of(Array.of(coins.find((coin) => coin.asset_id === coinId)!));
   }
 
-  getLastWeeksExchangeRate(coinId: string): Observable<ExchangeRate[]> {
+  getLastWeeksExchangeRates(coinId: string): Observable<ExchangeRate[]> {
     let exchangeRates = <MockedExchangeRate[]>(
       JSON.parse(localStorage.getItem('mockedExchangeRates') ?? '[]')
     );
-    let returnValue = exchangeRates.find((rate) => rate.coinId === coinId);
+    let returnValue = exchangeRates.find(
+      (exchangeRate) => exchangeRate.coinId === coinId
+    );
 
     if (returnValue) {
       return of(returnValue.rates);

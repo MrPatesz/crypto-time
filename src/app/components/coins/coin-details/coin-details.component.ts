@@ -10,7 +10,7 @@ import { MockedCoinsService } from 'src/app/services/coins/mocked-coins.service'
   selector: 'app-coin-details',
   templateUrl: './coin-details.component.html',
   styleUrls: ['./coin-details.component.scss'],
-  providers: [{ provide: ICoinsService, useClass: ApiCoinsService }], // MockedCoinsService }], //
+  providers: [{ provide: ICoinsService, useClass: MockedCoinsService }], //ApiCoinsService }], // 
 })
 export class CoinDetailsComponent implements OnInit {
   @Input()
@@ -38,17 +38,30 @@ export class CoinDetailsComponent implements OnInit {
       .getCoinById(this.selectedCoinId)
       .subscribe((coins: Coin[]) => {
         this.selectedCoin = coins.find(
-          (c) => c.asset_id === this.selectedCoinId
+          (coin) => coin.asset_id === this.selectedCoinId
         )!;
       });
+
     this.coinsService
-      .getLastWeeksExchangeRate(this.selectedCoinId)
-      .subscribe((r) => {
-        this.fillChartData(this.selectedCoinId, r);
+      .getLastWeeksExchangeRates(this.selectedCoinId)
+      .subscribe((exchangeRates) => {
+        this.fillChartData(this.selectedCoinId, exchangeRates);
       });
   }
+  
+  usdValueChanged(): void {
+    this.coinValue = this.usdValue / this.selectedCoin.price_usd;
+  }
 
-  private fillChartData(coinId: string, exchangeRates: ExchangeRate[]) {
+  coinValueChanged(): void {
+    this.usdValue = this.coinValue * this.selectedCoin.price_usd;
+  }
+
+  remove(): void {
+    this.removeCoin.emit(this.selectedCoin.asset_id);
+  }
+
+  private fillChartData(coinId: string, exchangeRates: ExchangeRate[]): void {
     this.persistMockData(coinId, exchangeRates);
 
     let newChartData = [{ name: coinId, series: <SeriesItem[]>[] }];
@@ -64,33 +77,23 @@ export class CoinDetailsComponent implements OnInit {
     this.chartData = newChartData;
   }
 
-  private persistMockData(coinId: string, r: ExchangeRate[]) {
+  private persistMockData(coinId: string, exchangeRates: ExchangeRate[]): void {
     let mockedExchangeRates = <MockedExchangeRate[]>(
       JSON.parse(localStorage.getItem('mockedExchangeRates') ?? '[]')
     );
 
-    let updateRate = mockedExchangeRates.find((ex) => ex.coinId === coinId);
+    let updateRate = mockedExchangeRates.find(
+      (exchangeRate) => exchangeRate.coinId === coinId
+    );
 
     if (updateRate) {
-      updateRate.rates = r;
+      updateRate.rates = exchangeRates;
     } else {
-      mockedExchangeRates.push({ coinId: coinId, rates: r });
+      mockedExchangeRates.push({ coinId: coinId, rates: exchangeRates });
     }
     localStorage.setItem(
       'mockedExchangeRates',
       JSON.stringify(mockedExchangeRates)
     );
-  }
-
-  usdValueChanged() {
-    this.coinValue = this.usdValue / this.selectedCoin.price_usd;
-  }
-
-  coinValueChanged() {
-    this.usdValue = this.coinValue * this.selectedCoin.price_usd;
-  }
-
-  remove() {
-    this.removeCoin.emit(this.selectedCoin.asset_id);
   }
 }

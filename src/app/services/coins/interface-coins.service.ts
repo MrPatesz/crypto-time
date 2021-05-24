@@ -23,7 +23,9 @@ export abstract class ICoinsService {
 
   abstract getCoinById(coinId: string): Observable<Coin[]>;
 
-  abstract getLastWeeksExchangeRate(coinId: string): Observable<ExchangeRate[]>;
+  abstract getLastWeeksExchangeRates(
+    coinId: string
+  ): Observable<ExchangeRate[]>;
 
   abstract getSymbols(coinIds: string[]): Observable<Symbol[]>;
 }

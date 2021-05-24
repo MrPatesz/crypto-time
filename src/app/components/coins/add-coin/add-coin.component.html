@@ -8,7 +8,7 @@
   </mat-select>
 </mat-form-field>
 <mat-dialog-actions class="actions">
-  <button (click)="cancel()" mat-raised-button>Cancel</button>
+  <button [mat-dialog-close]="" mat-raised-button>Cancel</button>
   <button [mat-dialog-close]="selectedCoinId" mat-raised-button color="primary">
     Add coin
   </button>

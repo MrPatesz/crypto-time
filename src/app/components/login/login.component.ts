@@ -18,10 +18,10 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  onSubmit() {
+  onSubmit(): void {
     let loggedInAs = this.loginService.login(this.username, this.password);
 
-    if (loggedInAs !== '') {
+    if (loggedInAs) {
       localStorage.setItem('loggedInAs', loggedInAs);
       this.router.navigate(['coins']);
     } else {

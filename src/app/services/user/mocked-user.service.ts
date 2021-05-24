@@ -18,7 +18,7 @@ export class MockedUserService implements IUserService {
   }
 
   register(username: string, password: string): boolean {
-    if (this.users.find((u) => u.username === username) === undefined) {
+    if (!this.users.find((user) => user.username === username)) {
       let newUser = {
         username: username,
         password: password,
@@ -35,10 +35,10 @@ export class MockedUserService implements IUserService {
 
   login(username: string, password: string): string {
     let user = this.users.find(
-      (u) => u.username === username && u.password === password
+      (user) => user.username === username && user.password === password
     );
 
-    if (user === undefined) {
+    if (!user) {
       this.register(username, password);
       return '';
     } else {
@@ -53,7 +53,9 @@ export class MockedUserService implements IUserService {
   getSavedCoinIds(): string[] {
     let loggedInAs = this.getLoggedInAs();
 
-    return this.users.find((u) => u.username == loggedInAs)?.savedCoinIds ?? [];
+    return (
+      this.users.find((user) => user.username == loggedInAs)?.savedCoinIds ?? []
+    );
   }
 
   getLoggedInAs(): string {
@@ -62,10 +64,10 @@ export class MockedUserService implements IUserService {
 
   saveCoin(coinId: string): void {
     let loggedInAs = this.getLoggedInAs();
-    let user = this.users.find((u) => u.username === loggedInAs);
+    let user = this.users.find((user) => user.username === loggedInAs);
 
-    if (user !== undefined) {
-      if (this.getSavedCoinIds().find((c) => c === coinId) === undefined)
+    if (user) {
+      if (!this.getSavedCoinIds().find((savedCoinId) => savedCoinId === coinId))
         user.savedCoinIds.push(coinId);
     }
 
@@ -74,10 +76,12 @@ export class MockedUserService implements IUserService {
 
   removeCoin(coinId: string): void {
     let loggedInAs = this.getLoggedInAs();
-    let user = this.users.find((u) => u.username === loggedInAs);
+    let user = this.users.find((user) => user.username === loggedInAs);
 
-    if (user !== undefined) {
-      user.savedCoinIds = user.savedCoinIds.filter((c) => c !== coinId);
+    if (user) {
+      user.savedCoinIds = user.savedCoinIds.filter(
+        (savedCoinId) => savedCoinId !== coinId
+      );
     }
 
     localStorage.setItem('users', JSON.stringify(this.users));

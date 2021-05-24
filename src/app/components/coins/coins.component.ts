@@ -12,7 +12,7 @@ import { MockedUserService } from 'src/app/services/user/mocked-user.service';
   providers: [{ provide: IUserService, useClass: MockedUserService }],
 })
 export class CoinsComponent implements OnInit {
-  loggedInAs!: string | null;
+  loggedInAs!: string;
   coinIds: string[] = [];
   selectedTabIndex: number = 0;
 
@@ -27,7 +27,7 @@ export class CoinsComponent implements OnInit {
     this.coinIds = this.userService.getSavedCoinIds();
   }
 
-  onLogout() {
+  onLogout(): void {
     this.userService.logout();
     this.router.navigate(['login']);
   }
@@ -44,15 +44,15 @@ export class CoinsComponent implements OnInit {
     });
   }
 
-  removeCoin(coinId: string) {
+  removeCoin(coinId: string): void {
     this.userService.removeCoin(coinId);
-    this.coinIds = this.coinIds.filter((c) => c !== coinId);
+    this.coinIds = this.coinIds.filter((id) => id !== coinId);
     if (this.selectedTabIndex === this.coinIds.length) {
       this.selectedTabIndex--;
     }
   }
 
-  tabChanged(index: number) {
+  tabChanged(index: number): void {
     this.selectedTabIndex = index;
   }
 }

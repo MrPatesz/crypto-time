@@ -14,7 +14,7 @@ import { WebsocketMessage } from 'src/app/models/websocket-message';
 })
 export class ApiCoinsService implements ICoinsService {
   private readonly BASE_URL = 'https://rest.coinapi.io/v1/';
-  private readonly API_KEY = '8CC5740F-5A45-4824-AB0B-C0CBFA30F828'; //'80F87126-EAF7-4CBC-9D3B-17CC8D136633'; //'7602D7C3-AAD3-4E2B-B44E-82A24F734EA8'; 
+  private readonly API_KEY = '8CC5740F-5A45-4824-AB0B-C0CBFA30F828'; //'80F87126-EAF7-4CBC-9D3B-17CC8D136633'; //'7602D7C3-AAD3-4E2B-B44E-82A24F734EA8';
   private readonly HTTP_OPTIONS = {
     headers: new HttpHeaders({ 'X-CoinAPI-Key': this.API_KEY }),
   };
@@ -25,17 +25,17 @@ export class ApiCoinsService implements ICoinsService {
 
   constructor(private http: HttpClient) {}
 
-  subcribeToWebsocket(subscriptionFunction: SubscriptionFunction) {
+  subcribeToWebsocket(subscriptionFunction: SubscriptionFunction): void {
     this.websocket.subscribe((message) => {
       subscriptionFunction(<WebsocketMessage>message);
     });
   }
 
-  closeWebsocket() {
+  closeWebsocket(): void {
     this.websocket.complete();
   }
 
-  sendHelloMessage(coinIds: string[], symbols: string[]) {
+  sendHelloMessage(coinIds: string[], symbols: string[]): void {
     let helloMessage = {
       type: 'hello',
       apikey: this.API_KEY,
@@ -49,7 +49,7 @@ export class ApiCoinsService implements ICoinsService {
     this.websocket.next(helloMessage);
   }
 
-  getCoins() {
+  getCoins(): Observable<Coin[]> {
     return this.http.get<Coin[]>(this.BASE_URL + 'assets', this.HTTP_OPTIONS);
   }
 
@@ -60,7 +60,7 @@ export class ApiCoinsService implements ICoinsService {
     );
   }
 
-  getLastWeeksExchangeRate(coinId: string): Observable<ExchangeRate[]> {
+  getLastWeeksExchangeRates(coinId: string): Observable<ExchangeRate[]> {
     let today = new Date();
     let oneWeekAgo = new Date().setDate(today.getDate() - 7);
 
