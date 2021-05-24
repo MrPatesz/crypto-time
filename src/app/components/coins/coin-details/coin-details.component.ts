@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ChartData, SeriesItem } from 'src/app/models/chart-data';
 import { Coin } from 'src/app/models/coin';
-import { ExchangeRate, MockedExchangeRate } from 'src/app/models/exchange-rate';
+import { ExchangeRate } from 'src/app/models/exchange-rate';
 import { ICoinsService } from 'src/app/services/coins/interface-coins.service';
 import { ApiCoinsService } from 'src/app/services/coins/api-coins.service';
 import { MockedCoinsService } from 'src/app/services/coins/mocked-coins.service';
