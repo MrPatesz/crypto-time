@@ -8,7 +8,7 @@ import { MockedCoinsService } from 'src/app/services/coins/mocked-coins.service'
   selector: 'app-add-coin',
   templateUrl: './add-coin.component.html',
   styleUrls: ['./add-coin.component.scss'],
-  providers: [{ provide: ICoinsService, useClass: MockedCoinsService }], // ApiCoinsService }], //
+  providers: [{ provide: ICoinsService, useClass: ApiCoinsService }], // MockedCoinsService }], //
 })
 export class AddCoinComponent implements OnInit {
   coins: Coin[] = [];

@@ -10,7 +10,7 @@ import { MockedCoinsService } from 'src/app/services/coins/mocked-coins.service'
   selector: 'app-coin-details',
   templateUrl: './coin-details.component.html',
   styleUrls: ['./coin-details.component.scss'],
-  providers: [{ provide: ICoinsService, useClass: MockedCoinsService }], //ApiCoinsService }], // 
+  providers: [{ provide: ICoinsService, useClass: ApiCoinsService }], // MockedCoinsService }], //
 })
 export class CoinDetailsComponent implements OnInit {
   @Input()
@@ -48,7 +48,7 @@ export class CoinDetailsComponent implements OnInit {
         this.fillChartData(this.selectedCoinId, exchangeRates);
       });
   }
-  
+
   usdValueChanged(): void {
     this.coinValue = this.usdValue / this.selectedCoin.price_usd;
   }

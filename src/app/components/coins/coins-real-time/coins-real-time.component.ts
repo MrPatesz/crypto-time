@@ -16,7 +16,7 @@ interface TableItem {
   selector: 'app-coins-real-time',
   templateUrl: './coins-real-time.component.html',
   styleUrls: ['./coins-real-time.component.scss'],
-  providers: [{ provide: ICoinsService, useClass: MockedCoinsService }], // ApiCoinsService }], //
+  providers: [{ provide: ICoinsService, useClass: ApiCoinsService }], // MockedCoinsService }], //
 })
 export class CoinsRealTimeComponent implements OnInit {
   @Input()
