@@ -8,6 +8,8 @@ export abstract class IUserService {
 
   abstract login(username: string, password: string): string;
 
+  abstract userExists(username: string): boolean;
+
   abstract logout(): void;
 
   abstract getSavedCoinIds(): string[];

@@ -13,19 +13,30 @@ export class LoginComponent implements OnInit {
   username: string = '';
   password: string = '';
   loginInvalid: boolean = false;
+  registered: boolean = false;
 
-  constructor(private loginService: IUserService, private router: Router) {}
+  constructor(private userService: IUserService, private router: Router) {}
 
   ngOnInit(): void {}
 
   onSubmit(): void {
-    let loggedInAs = this.loginService.login(this.username, this.password);
+    this.loginInvalid = false;
+    this.registered = false;
 
-    if (loggedInAs) {
-      localStorage.setItem('loggedInAs', loggedInAs);
-      this.router.navigate(['coins']);
+    let userExists = this.userService.userExists(this.username);
+
+    if (userExists) {
+      let loggedInAs = this.userService.login(this.username, this.password);
+
+      if (loggedInAs) {
+        localStorage.setItem('loggedInAs', loggedInAs);
+        this.router.navigate(['coins']);
+      } else {
+        this.loginInvalid = true;
+      }
     } else {
-      this.loginInvalid = true;
+      this.userService.register(this.username, this.password);
+      this.registered = true;
     }
   }
 }

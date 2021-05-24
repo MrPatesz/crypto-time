@@ -18,7 +18,7 @@ export class MockedUserService implements IUserService {
   }
 
   register(username: string, password: string): boolean {
-    if (!this.users.find((user) => user.username === username)) {
+    if (!this.userExists(username)) {
       let newUser = {
         username: username,
         password: password,
@@ -39,10 +39,17 @@ export class MockedUserService implements IUserService {
     );
 
     if (!user) {
-      this.register(username, password);
       return '';
     } else {
       return user.username;
+    }
+  }
+
+  userExists(username: string): boolean {
+    if (this.users.find((user) => user.username === username)) {
+      return true;
+    } else {
+      return false;
     }
   }
 
