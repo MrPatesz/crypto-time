@@ -5,6 +5,7 @@ import { of } from 'rxjs/internal/observable/of';
 import { Coin } from 'src/app/models/coin';
 import { ExchangeRate, MockedExchangeRate } from 'src/app/models/exchange-rate';
 import { Symbol } from 'src/app/models/symbol';
+import { MockedCoinsData } from './mocked-data';
 
 @Injectable({
   providedIn: 'root',
@@ -19,19 +20,19 @@ export class MockedCoinsService implements ICoinsService {
   sendHelloMessage(coinIds: string[], symbols: string[]): void {}
 
   getCoins(): Observable<Coin[]> {
-    return of(<Coin[]>JSON.parse(localStorage.getItem('mockedCoins') ?? '[]'));
+    return of(<Coin[]>MockedCoinsData.mockedCoins);
   }
 
   getCoinById(coinId: string): Observable<Coin[]> {
-    let coins = <Coin[]>JSON.parse(localStorage.getItem('mockedCoins') ?? '[]');
-
+    let coins = <Coin[]>MockedCoinsData.mockedCoins;
     return of(Array.of(coins.find((coin) => coin.asset_id === coinId)!));
   }
 
   getLastWeeksExchangeRates(coinId: string): Observable<ExchangeRate[]> {
     let exchangeRates = <MockedExchangeRate[]>(
-      JSON.parse(localStorage.getItem('mockedExchangeRates') ?? '[]')
+      MockedCoinsData.mockedExchangeRates
     );
+
     let returnValue = exchangeRates.find(
       (exchangeRate) => exchangeRate.coinId === coinId
     );
@@ -44,8 +45,6 @@ export class MockedCoinsService implements ICoinsService {
   }
 
   getSymbols(coinIds: string[]): Observable<Symbol[]> {
-    return of(
-      <Symbol[]>JSON.parse(localStorage.getItem('mockedSymbols') ?? '[]')
-    );
+    return of(<Symbol[]>MockedCoinsData.mockedSymbols);
   }
 }

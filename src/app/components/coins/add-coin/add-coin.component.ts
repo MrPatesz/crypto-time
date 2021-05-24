@@ -8,7 +8,7 @@ import { MockedCoinsService } from 'src/app/services/coins/mocked-coins.service'
   selector: 'app-add-coin',
   templateUrl: './add-coin.component.html',
   styleUrls: ['./add-coin.component.scss'],
-  providers: [{ provide: ICoinsService, useClass: MockedCoinsService }], // ApiCoinsService }], // 
+  providers: [{ provide: ICoinsService, useClass: MockedCoinsService }], // ApiCoinsService }], //
 })
 export class AddCoinComponent implements OnInit {
   coins: Coin[] = [];
@@ -20,11 +20,6 @@ export class AddCoinComponent implements OnInit {
     this.coinsService.getCoins().subscribe((coins: Coin[]) => {
       coins = coins.filter((coin) => coin.type_is_crypto);
       this.coins = coins.slice(0, 100);
-      this.persisMockData();
     });
-  }
-
-  private persisMockData(): void {
-    localStorage.setItem('mockedCoins', JSON.stringify(this.coins));
   }
 }

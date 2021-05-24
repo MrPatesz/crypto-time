@@ -74,15 +74,10 @@ export class CoinsRealTimeComponent implements OnInit {
 
   private getSymbolsAndSendHelloMessage(): void {
     this.coinsService.getSymbols(this.coinIds).subscribe((symbols) => {
-      this.persistMockData(symbols);
       this.coinsService.sendHelloMessage(
         this.coinIds,
         symbols.map((symbol) => symbol.symbol_id)
       );
     });
-  }
-
-  private persistMockData(symbols: Symbol[]): void {
-    localStorage.setItem('mockedSymbols', JSON.stringify(symbols));
   }
 }

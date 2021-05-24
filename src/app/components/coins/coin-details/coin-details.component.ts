@@ -62,8 +62,6 @@ export class CoinDetailsComponent implements OnInit {
   }
 
   private fillChartData(coinId: string, exchangeRates: ExchangeRate[]): void {
-    this.persistMockData(coinId, exchangeRates);
-
     let newChartData = [{ name: coinId, series: <SeriesItem[]>[] }];
     exchangeRates.forEach((exchangeRate) => {
       newChartData[0].series.push({
@@ -75,25 +73,5 @@ export class CoinDetailsComponent implements OnInit {
       });
     });
     this.chartData = newChartData;
-  }
-
-  private persistMockData(coinId: string, exchangeRates: ExchangeRate[]): void {
-    let mockedExchangeRates = <MockedExchangeRate[]>(
-      JSON.parse(localStorage.getItem('mockedExchangeRates') ?? '[]')
-    );
-
-    let updateRate = mockedExchangeRates.find(
-      (exchangeRate) => exchangeRate.coinId === coinId
-    );
-
-    if (updateRate) {
-      updateRate.rates = exchangeRates;
-    } else {
-      mockedExchangeRates.push({ coinId: coinId, rates: exchangeRates });
-    }
-    localStorage.setItem(
-      'mockedExchangeRates',
-      JSON.stringify(mockedExchangeRates)
-    );
   }
 }
