@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { WebsocketMessage } from 'src/app/models/websocket-message';
-import { Symbol } from 'src/app/models/symbol';
 import { ICoinsService } from 'src/app/services/coins/interface-coins.service';
 import { ApiCoinsService } from 'src/app/services/coins/api-coins.service';
 import { MockedCoinsService } from 'src/app/services/coins/mocked-coins.service';
