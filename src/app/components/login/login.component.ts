@@ -22,12 +22,10 @@ export class LoginComponent implements OnInit {
 
     let userExists = this.userService.userExists(this.username);
 
-    if (userExists) {
-      this.login();
-    } else {
+    if (!userExists) {
       this.userService.register(this.username, this.password);
-      this.login();
     }
+    this.login();
   }
 
   private login() {
