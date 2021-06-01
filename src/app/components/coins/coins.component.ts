@@ -3,13 +3,11 @@ import { Router } from '@angular/router';
 import { AddCoinComponent } from './add-coin/add-coin.component';
 import { MatDialog } from '@angular/material/dialog';
 import { IUserService } from 'src/app/services/user/interface-user.service';
-import { MockedUserService } from 'src/app/services/user/mocked-user.service';
 
 @Component({
   selector: 'app-coins',
   templateUrl: './coins.component.html',
   styleUrls: ['./coins.component.scss'],
-  providers: [{ provide: IUserService, useClass: MockedUserService }],
 })
 export class CoinsComponent implements OnInit {
   loggedInAs!: string;

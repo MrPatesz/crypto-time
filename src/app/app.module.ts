@@ -23,6 +23,11 @@ import { CoinDetailsComponent } from './components/coins/coin-details/coin-detai
 import { CoinsRealTimeComponent } from './components/coins/coins-real-time/coins-real-time.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
+import { IUserService } from './services/user/interface-user.service';
+import { MockedUserService } from './services/user/mocked-user.service';
+import { ICoinsService } from './services/coins/interface-coins.service';
+import { ApiCoinsService } from './services/coins/api-coins.service';
+import { MockedCoinsService } from './services/coins/mocked-coins.service';
 
 @NgModule({
   declarations: [
@@ -51,7 +56,10 @@ import { MatIconModule } from '@angular/material/icon';
     MatTableModule,
     MatIconModule,
   ],
-  providers: [],
+  providers: [
+    { provide: IUserService, useClass: MockedUserService },
+    { provide: ICoinsService, useClass: MockedCoinsService }, // ApiCoinsService }, //
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

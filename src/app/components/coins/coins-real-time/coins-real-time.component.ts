@@ -1,8 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { WebsocketMessage } from 'src/app/models/websocket-message';
 import { ICoinsService } from 'src/app/services/coins/interface-coins.service';
-import { ApiCoinsService } from 'src/app/services/coins/api-coins.service';
-import { MockedCoinsService } from 'src/app/services/coins/mocked-coins.service';
 
 interface TableItem {
   coinId: string;
@@ -15,7 +13,6 @@ interface TableItem {
   selector: 'app-coins-real-time',
   templateUrl: './coins-real-time.component.html',
   styleUrls: ['./coins-real-time.component.scss'],
-  providers: [{ provide: ICoinsService, useClass: ApiCoinsService }], // MockedCoinsService }], //
 })
 export class CoinsRealTimeComponent implements OnInit {
   @Input()
