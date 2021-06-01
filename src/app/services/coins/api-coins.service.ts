@@ -8,12 +8,12 @@ import { formatDate } from '@angular/common';
 import { Symbol } from 'src/app/models/symbol';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { WebsocketMessage } from 'src/app/models/websocket-message';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiCoinsService implements ICoinsService {
-  private readonly BASE_URL = 'https://rest.coinapi.io/v1/';
   private readonly API_KEY = '7602D7C3-AAD3-4E2B-B44E-82A24F734EA8';
   private readonly HTTP_OPTIONS = {
     headers: new HttpHeaders({ 'X-CoinAPI-Key': this.API_KEY }),
@@ -50,12 +50,12 @@ export class ApiCoinsService implements ICoinsService {
   }
 
   getCoins(): Observable<Coin[]> {
-    return this.http.get<Coin[]>(this.BASE_URL + 'assets', this.HTTP_OPTIONS);
+    return this.http.get<Coin[]>(environment.apiUrl + 'assets', this.HTTP_OPTIONS);
   }
 
   getCoinById(coinId: string): Observable<Coin[]> {
     return this.http.get<Coin[]>(
-      this.BASE_URL + 'assets/' + coinId,
+      environment.apiUrl + 'assets/' + coinId,
       this.HTTP_OPTIONS
     );
   }
@@ -65,7 +65,7 @@ export class ApiCoinsService implements ICoinsService {
     let oneWeekAgo = new Date().setDate(today.getDate() - 7);
 
     return this.http.get<ExchangeRate[]>(
-      this.BASE_URL +
+      environment.apiUrl +
         'exchangerate/' +
         coinId +
         '/USD/history' +
@@ -81,7 +81,7 @@ export class ApiCoinsService implements ICoinsService {
 
   getSymbols(coinIds: string[]): Observable<Symbol[]> {
     return this.http.get<Symbol[]>(
-      this.BASE_URL +
+      environment.apiUrl +
         'symbols?filter_symbol_id=BINANCE_SPOT_&filter_asset_id=' +
         coinIds.toString(),
       this.HTTP_OPTIONS
