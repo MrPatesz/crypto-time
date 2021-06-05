@@ -58,7 +58,7 @@ import { MockedCoinsService } from './services/coins/mocked-coins.service';
   ],
   providers: [
     { provide: IUserService, useClass: MockedUserService },
-    { provide: ICoinsService, useClass: MockedCoinsService }, // ApiCoinsService }, //
+    { provide: ICoinsService, useClass: ApiCoinsService }, // MockedCoinsService }, //
   ],
   bootstrap: [AppComponent],
 })
